@@ -1,0 +1,103 @@
+/* =========================================================
+   FORMULARIO PRODUCTO — estilos del formulario CRUD
+   Usado por FormularioProducto.jsx en el panel de administración
+   ========================================================= */
+
+/* Página completa: centra el formulario vertical y horizontalmente */
+.pagina {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.volverLink {
+  display: block;
+  margin-bottom: 12px;
+  text-decoration: underline;
+  color: blue;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Tarjeta blanca que contiene el formulario */
+.card {
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Título del formulario */
+.titulo {
+  font-size: 1.4rem;
+  color: var(--green-forest);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--green-forest);
+  padding-bottom: 0.5rem;
+}
+
+/* Cada campo: label arriba, input abajo */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 1rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--gray-dark);
+}
+
+/* Estilo compartido para input, number y select */
+.input,
+.select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--gray-dark);
+  background-color: var(--white);
+  transition: border-color var(--transition);
+}
+
+/* Resalta el campo activo con el verde principal */
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--green-forest);
+}
+
+/* Botón de envío */
+.boton {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  background-color: var(--green-forest);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.boton:hover {
+  background-color: var(--green-forest-dark);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.25rem;
+  }
+}

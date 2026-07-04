@@ -1,0 +1,148 @@
+/* =========================================================
+   CARD DE PRODUCTO
+   Cada producto se muestra en una tarjeta blanca con sombra.
+   ========================================================= */
+
+.card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-light);  /* borde gris claro */
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+/* La imagen ocupa todo el ancho y tiene altura fija */
+.image {
+/* ocupa todo el ancho del contenedor padre (.card) */
+   width: 100%;
+   /* fuerza a que la imagen mantenga una proporción 16:9 (ancho/alto)
+   aunque las imágenes originales tengan tamaños distintos */
+  aspect-ratio: 16 / 9;
+ 
+  object-fit: contain;  /* muestra completa, deja espacios */
+object-position: top; 
+/* convierte la imagen en elemento de bloque
+   evitando espacios raros típicos de elementos inline */
+  display: block;
+  /* redondea las esquinas de la imagen */
+  border-radius: 8px;
+  /* agrega separación debajo de la imagen */
+
+  margin-bottom: 8px;
+}
+
+/* =========================================================
+   ALERTA DE STOCK BAJO
+   Aparece cuando quedan 2 o menos unidades.
+   ========================================================= */
+
+.alerta {
+  color: var(--red-alert);              /* texto rojo */
+  font-weight: bold;
+  background-color: #f8d7da;           /* fondo rosa claro */
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--red-alert);
+  font-size: 0.85em;
+  margin: 4px 0;
+  text-align: center;
+}
+
+/* =========================================================
+   CONTROL DE CANTIDAD
+   Botones circulares + / - con el número en el medio.
+   ========================================================= */
+
+.quantityControl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.quantityButton {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid var(--green-forest);
+  background-color: var(--white);
+  color: var(--green-forest);           /* verde sobre blanco */
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Al hacer hover: se invierte — fondo verde, texto blanco */
+.quantityButton:hover:not(:disabled) {
+  background-color: var(--green-forest);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+/* Deshabilitado: semitransparente, sin cursor de mano */
+.quantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Número de unidades seleccionadas */
+.quantity {
+  font-size: 1.2em;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+  color: var(--gray-dark);
+}
+
+/* =========================================================
+   BOTÓN DE COMPRA
+   Verde cuando hay unidades seleccionadas, gris cuando no.
+   ========================================================= */
+
+/* Estado activo: verde confirmación con sombra */
+.buttonActive {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 6px;
+  background-color: var(--green-ok);   /* verde confirmación */
+  color: var(--white);
+  cursor: pointer;
+  transition: all var(--transition);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.buttonActive:hover {
+  background-color: #218838;           /* verde un poco más oscuro */
+  transform: translateY(-3px);
+}
+
+/* Estado deshabilitado: gris, sin interacción */
+.buttonDisabled {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #6c757d;           /* gris neutro */
+  color: var(--white);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* =========================================================
+   ANIMACIONES
+   ========================================================= */
+
+/* Pulso suave para badges de stock nuevo */
+@keyframes pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}

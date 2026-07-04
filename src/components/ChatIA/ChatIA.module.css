@@ -1,0 +1,190 @@
+/* =========================================================
+   BARRA SUPERIOR
+   Título izquierda + volver derecha
+   ========================================================= */
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.volverLink {
+  text-decoration: underline;
+  color: blue;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CHAT IA - CONTENEDOR PRINCIPAL
+   Panel gris claro que envuelve todo el chat.
+   ========================================================= */
+
+.wrapper {
+  padding: 20px;
+  background: #f4f4f4;                 /* gris muy claro de fondo */
+  border-radius: var(--radius);
+  margin: 20px 0;
+}
+
+/* Título del panel */
+.title {
+  margin: 0;
+  color: var(--gray-dark);
+}
+/* =========================================================
+   CAJA DE MENSAJES
+   Área scrolleable donde aparecen los mensajes del chat.
+   ========================================================= */
+
+.chatBox {
+  background: var(--white);
+  height: 250px;
+  overflow-y: auto;                    /* scroll vertical cuando se llena */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.message {
+  margin: 5px 0;
+}
+
+/* Mensajes del usuario alineados a la derecha */
+.messageUser {
+  text-align: right;
+}
+
+/* Mensajes de la IA alineados a la izquierda */
+.messageIA {
+  text-align: left;
+}
+
+/* Burbuja base: tamaño máximo del 80% del ancho */
+.bubble {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+/* Burbuja del usuario: azul con texto blanco */
+.bubbleUser {
+  background: #007bff;                 /* azul estándar */
+  color: var(--white);
+}
+
+/* Burbuja de la IA: gris claro con texto oscuro */
+.bubbleIA {
+  background: #e4e6eb;                 /* gris claro */
+  color: var(--gray-dark);
+}
+
+/* =========================================================
+   FORMULARIO DE ENVÍO
+   Input de texto + botón Enviar en una fila.
+   ========================================================= */
+
+.form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Input ocupa todo el espacio disponible */
+.input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--gray-light); /* borde gris claro */
+  border-radius: 6px;
+}
+
+/* Botón verde bosque */
+.sendButton {
+  padding: 10px 16px;
+  background: var(--green-forest);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+/* Hover: verde más oscuro */
+.sendButton:hover:not(:disabled) {
+  background: var(--green-forest-dark);
+}
+
+/* Deshabilitado mientras espera respuesta */
+.sendButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   BOTÓN "QUIERO QUE ME CONTACTEN"
+   Naranja fuego para llamar la atención.
+   ========================================================= */
+
+.contactButton {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: var(--orange-fire);      /* naranja fuego */
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+/* Hover: naranja más oscuro */
+.contactButton:hover {
+  background: #e65100;
+}
+
+/* =========================================================
+   FORMULARIO DE CONTACTO
+   Aparece cuando el usuario quiere dejar sus datos.
+   ========================================================= */
+
+.formContact {
+  margin-top: 15px;
+}
+
+.formContact h5 {
+  margin-bottom: 10px;
+  color: var(--gray-dark);
+}
+
+/* Campos en fila, se apilan en pantallas chicas */
+.formContactFields {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   BANNER: servidor apagado
+   Aparece cuando el fetch falla por ERR_CONNECTION_REFUSED
+   ========================================================= */
+
+.servidorOff {
+  background-color: #fff3cd;       /* amarillo suave de advertencia */
+  color: #856404;                  /* marrón oscuro legible */
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+/* El comando se muestra en monospace para que parezca terminal */
+.servidorOff code {
+  background-color: #f8f0d0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+}

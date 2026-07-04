@@ -1,0 +1,51 @@
+/* =========================================================
+   HEADER PRINCIPAL
+   Barra superior verde que contiene logo, título y navbar.
+   ========================================================= */
+
+.header {
+  background-color: var(--green-forest);  /* verde oscuro de fondo */
+  color: var(--white);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;  /* logo a la izquierda, nav a la derecha */
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;  /* en móvil se apilan verticalmente */
+}
+
+/* =========================================================
+   BLOQUE IZQUIERDO: logo + título
+   ========================================================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: var(--white);  /* blanco sobre el fondo verde */
+}
+
+/* =========================================================
+   RESPONSIVE
+   En pantallas chicas todo se centra y apila
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,129 @@
+/* =========================================================
+   RESET GLOBAL
+   Borramos los márgenes y paddings que el navegador
+   agrega por defecto. box-sizing: border-box hace que
+   el padding y el borde queden DENTRO del ancho declarado,
+   no lo agranden.
+   ========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   VARIABLES GLOBALES
+   Todos los colores están en formato rgb(R, G, B).
+   R = rojo, G = verde, B = azul. Cada canal va de 0 a 255.
+   Ejemplos: rgb(255,0,0) rojo puro · rgb(0,255,0) verde puro
+             rgb(0,0,0) negro · rgb(255,255,255) blanco
+   Cambiás un valor acá y se actualiza en toda la app.
+   ========================================================= */
+
+:root {
+  /* Amarillo muy claro, casi blanco cálido */
+  --yellow-min: rgb(249, 249, 221);
+
+  /* Verde extra suave, casi blanco frío */
+  --green-extra-min: rgb(240, 251, 247);
+
+  /* Fondo general: verde menta muy suave, casi blanco */
+  --green-mint: rgb(217, 250, 230);
+
+  /* Verde principal: el verde oscuro de los botones y el header */
+  --green-forest: rgb(72, 175, 78);
+
+  /* Verde más oscuro: se usa en hover para dar profundidad */
+  --green-forest-dark: rgb(124, 170, 127);
+
+  /* Naranja fuego: color de acento para links y botones secundarios */
+  --orange-fire: rgb(255, 111, 0);
+
+  /* Blanco puro: fondos de cards, textos sobre fondos oscuros */
+  --white: rgb(255, 255, 255);
+
+  /* Gris oscuro: color principal del texto */
+  --gray-dark: rgb(51, 51, 51);
+
+  /* Gris medio: texto secundario, subtítulos, placeholders */
+  --gray-mid: rgb(102, 102, 102);
+
+  /* Rojo alerta: errores, stock bajo, mensajes de peligro */
+  --red-alert: rgb(220, 53, 69);
+
+  /* Verde confirmación: compras exitosas, stock disponible */
+  --green-ok: rgb(40, 167, 69);
+
+  /* Gris claro: bordes de cards e inputs */
+  --gray-light: rgb(217, 217, 217);
+
+  /* Sombra suave: da elevación a cards y paneles */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Radio de borde: cuánto se redondean las esquinas */
+  --radius: 12px;
+
+  /* Velocidad de las animaciones hover */
+  --transition: 0.3s ease;
+
+  /* Ancho máximo del contenido central */
+  --container-width: 1200px;
+}
+
+/* =========================================================
+   BASE DEL DOCUMENTO
+   ========================================================= */
+
+html {
+  font-size: 16px;
+  /* El scroll animado evita saltos bruscos al navegar */
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--green-mint);
+  color: var(--gray-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   ELEMENTOS BASE
+   ========================================================= */
+
+/* Las imágenes nunca rompen su contenedor */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Botones, inputs y textareas heredan la tipografía del body */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+/* Los links no tienen subrayado por defecto */
+a {
+  text-decoration: none;
+}
+
+/* Las listas no tienen viñetas por defecto */
+ul {
+  list-style: none;
+}
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+/* Todos los títulos tienen interlineado compacto */
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+}

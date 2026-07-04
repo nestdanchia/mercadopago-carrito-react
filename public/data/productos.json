@@ -1,0 +1,373 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laptop",
+    "stock": 10,
+    "precio": 1200,
+    "categoria": "computacion"
+  },
+  {
+    "id": 2,
+    "nombre": "Mouse",
+    "stock": 5,
+    "precio": 45,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 3,
+    "nombre": "Monitor",
+    "stock": 2,
+    "precio": 350,
+    "categoria": "computacion"
+  },
+  {
+    "id": 4,
+    "nombre": "Teclado",
+    "stock": 8,
+    "precio": 89,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 5,
+    "nombre": "Webcam HD",
+    "stock": 15,
+    "precio": 75,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 6,
+    "nombre": "Auriculares Bluetooth",
+    "stock": 12,
+    "precio": 120,
+    "categoria": "audio"
+  },
+  {
+    "id": 7,
+    "nombre": "Micrófono USB",
+    "stock": 6,
+    "precio": 95,
+    "categoria": "audio"
+  },
+  {
+    "id": 8,
+    "nombre": "Tablet 10 pulgadas",
+    "stock": 4,
+    "precio": 450,
+    "categoria": "moviles"
+  },
+  {
+    "id": 9,
+    "nombre": "Smartphone Android",
+    "stock": 9,
+    "precio": 680,
+    "categoria": "moviles"
+  },
+  {
+    "id": 10,
+    "nombre": "Disco Duro Externo 1TB",
+    "stock": 7,
+    "precio": 85,
+    "categoria": "almacenamiento"
+  },
+  {
+    "id": 11,
+    "nombre": "SSD 500GB",
+    "stock": 11,
+    "precio": 110,
+    "categoria": "almacenamiento"
+  },
+  {
+    "id": 12,
+    "nombre": "Memoria RAM 16GB",
+    "stock": 14,
+    "precio": 130,
+    "categoria": "componentes"
+  },
+  {
+    "id": 13,
+    "nombre": "Tarjeta Gráfica RTX 3060",
+    "stock": 3,
+    "precio": 450,
+    "categoria": "componentes"
+  },
+  {
+    "id": 14,
+    "nombre": "Fuente de Poder 650W",
+    "stock": 8,
+    "precio": 95,
+    "categoria": "componentes"
+  },
+  {
+    "id": 15,
+    "nombre": "Gabinete Gaming",
+    "stock": 5,
+    "precio": 120,
+    "categoria": "componentes"
+  },
+  {
+    "id": 16,
+    "nombre": "Router WiFi 6",
+    "stock": 9,
+    "precio": 180,
+    "categoria": "redes"
+  },
+  {
+    "id": 17,
+    "nombre": "Switch 8 Puertos",
+    "stock": 6,
+    "precio": 65,
+    "categoria": "redes"
+  },
+  {
+    "id": 18,
+    "nombre": "Cable Ethernet 10m",
+    "stock": 20,
+    "precio": 15,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 19,
+    "nombre": "Hub USB 4 Puertos",
+    "stock": 13,
+    "precio": 35,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 20,
+    "nombre": "Batería Externa 20000mAh",
+    "stock": 10,
+    "precio": 55,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 21,
+    "nombre": "Cargador USB-C 65W",
+    "stock": 8,
+    "precio": 45,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 22,
+    "nombre": "Soporte Monitor Adjustable",
+    "stock": 7,
+    "precio": 85,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 23,
+    "nombre": "Silla Gaming Ergonómica",
+    "stock": 4,
+    "precio": 320,
+    "categoria": "muebles"
+  },
+  {
+    "id": 24,
+    "nombre": "Escritorio Gaming 120cm",
+    "stock": 3,
+    "precio": 280,
+    "categoria": "muebles"
+  },
+  {
+    "id": 25,
+    "nombre": "Lámpara LED RGB",
+    "stock": 12,
+    "precio": 45,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 26,
+    "nombre": "Mousepad XL Gaming",
+    "stock": 15,
+    "precio": 35,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 27,
+    "nombre": "Control Xbox Series X",
+    "stock": 6,
+    "precio": 65,
+    "categoria": "gaming"
+  },
+  {
+    "id": 28,
+    "nombre": "Joystick PS5",
+    "stock": 8,
+    "precio": 75,
+    "categoria": "gaming"
+  },
+  {
+    "id": 29,
+    "nombre": "Steam Deck 64GB",
+    "stock": 2,
+    "precio": 520,
+    "categoria": "gaming"
+  },
+  {
+    "id": 30,
+    "nombre": "Nintendo Switch OLED",
+    "stock": 5,
+    "precio": 380,
+    "categoria": "gaming"
+  },
+  {
+    "id": 31,
+    "nombre": "PlayStation 5",
+    "stock": 1,
+    "precio": 550,
+    "categoria": "gaming"
+  },
+  {
+    "id": 32,
+    "nombre": "Xbox Series X",
+    "stock": 3,
+    "precio": 520,
+    "categoria": "gaming"
+  },
+  {
+    "id": 33,
+    "nombre": "VR Meta Quest 2",
+    "stock": 4,
+    "precio": 420,
+    "categoria": "gaming"
+  },
+  {
+    "id": 34,
+    "nombre": "Tarjeta de Captura 4K",
+    "stock": 2,
+    "precio": 280,
+    "categoria": "streaming"
+  },
+  {
+    "id": 35,
+    "nombre": "Green Screen 2x2m",
+    "stock": 6,
+    "precio": 85,
+    "categoria": "streaming"
+  },
+  {
+    "id": 36,
+    "nombre": "Ring Light LED",
+    "stock": 9,
+    "precio": 65,
+    "categoria": "streaming"
+  },
+  {
+    "id": 37,
+    "nombre": "Tripie para Cámara",
+    "stock": 5,
+    "precio": 120,
+    "categoria": "fotografia"
+  },
+  {
+    "id": 38,
+    "nombre": "Cámara DSLR 24MP",
+    "stock": 2,
+    "precio": 680,
+    "categoria": "fotografia"
+  },
+  {
+    "id": 39,
+    "nombre": "Lente 50mm f/1.8",
+    "stock": 4,
+    "precio": 220,
+    "categoria": "fotografia"
+  },
+  {
+    "id": 40,
+    "nombre": "Flash Externo",
+    "stock": 7,
+    "precio": 180,
+    "categoria": "fotografia"
+  },
+  {
+    "id": 41,
+    "nombre": "Drone Mini 4K",
+    "stock": 3,
+    "precio": 450,
+    "categoria": "drones"
+  },
+  {
+    "id": 42,
+    "nombre": "Baterías Drone (Pack 3)",
+    "stock": 8,
+    "precio": 95,
+    "categoria": "drones"
+  },
+  {
+    "id": 43,
+    "nombre": "Cargador Drone",
+    "stock": 6,
+    "precio": 65,
+    "categoria": "drones"
+  },
+  {
+    "id": 44,
+    "nombre": "Smartwatch Fitness",
+    "stock": 10,
+    "precio": 180,
+    "categoria": "wearables"
+  },
+  {
+    "id": 45,
+    "nombre": "Bandas Fitness Tracker",
+    "stock": 12,
+    "precio": 65,
+    "categoria": "wearables"
+  },
+  {
+    "id": 46,
+    "nombre": "Auriculares Deportivos",
+    "stock": 15,
+    "precio": 85,
+    "categoria": "audio"
+  },
+  {
+    "id": 47,
+    "nombre": "Altavoces Bluetooth Portátiles",
+    "stock": 9,
+    "precio": 120,
+    "categoria": "audio"
+  },
+  {
+    "id": 48,
+    "nombre": "Barra Sonido 2.1",
+    "stock": 4,
+    "precio": 220,
+    "categoria": "audio"
+  },
+  {
+    "id": 49,
+    "nombre": "Proyector LED 1080p",
+    "stock": 3,
+    "precio": 380,
+    "categoria": "video"
+  },
+  {
+    "id": 50,
+    "nombre": "Pantalla Táctil 15 pulgadas",
+    "stock": 5,
+    "precio": 280,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 51,
+    "nombre": "Cooling Pad Laptop",
+    "stock": 8,
+    "precio": 45,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 52,
+    "nombre": "Candado Portátil USB",
+    "stock": 12,
+    "precio": 35,
+    "categoria": "seguridad"
+  },
+  {
+    "id": 53,
+    "nombre": "Cámara de Seguridad WiFi",
+    "stock": 6,
+    "precio": 120,
+    "categoria": "seguridad"
+  }
+]

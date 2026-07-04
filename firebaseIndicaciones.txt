@@ -1,0 +1,130 @@
+TPprimerEntrega/
+│
+├── frontend/
+│
+│ ├── public/
+│ │ ├── carrito1.png
+│ │ ├── carrito2.png
+│ │ └── ...
+│ │
+│ ├── src/
+│ │
+│ │ ├── components/
+│ │ │ ├── Item/
+│ │ │ ├── Carrito/
+│ │ │ ├── CatalogoProductos/
+│ │ │ ├── ChatIA/
+│ │ │ ├── Login/
+│ │ │ └── ProtectedRoute/
+│ │ │
+│ │ ├── context/
+│ │ │ ├── CartContext.jsx
+│ │ │ └── AuthContext.jsx
+│ │ │
+│ │ ├── firebase/
+│ │ │ └── config.js
+│ │ │
+│ │ ├── services/
+│ │ │ ├── productService.js
+│ │ │ ├── authService.js
+│ │ │ └── chatApi.js
+│ │ │
+│ │ ├── routes/
+│ │ │ └── AppRouter.jsx
+│ │ │
+│ │ ├── pages/
+│ │ │ ├── Home.jsx
+│ │ │ ├── Login.jsx
+│ │ │ ├── Admin.jsx
+│ │ │ └── Checkout.jsx
+│ │ │
+│ │ ├── App.jsx
+│ │ ├── main.jsx
+│ │ └── ...
+│ │
+│ ├── package.json
+│ ├── vite.config.js
+│ ├── eslint.config.js
+│ └── .gitignore
+│
+│
+├── backend/
+│
+│ ├── routes/
+│ │ └── chat.routes.js
+│ │
+│ ├── controllers/
+│ │ └── chat.controller.js
+│ │
+│ ├── server.js
+│ ├── package.json
+│ ├── .env
+│ ├── .gitignore
+│ └── node_modules/
+│
+│
+├── README.md
+└── .gitignore
+frontend/firebase/config.js
+
+conecta Firebase
+
+initializeApp()
+getFirestore()
+getAuth()
+getStorage()
+services/productService.js
+
+maneja:
+
+getProducts()
+addProduct()
+updateProduct()
+deleteProduct()
+uploadImage()
+services/authService.js
+
+maneja:
+
+login()
+register()
+logout()
+ProtectedRoute
+
+protege rutas como:
+
+/admin
+/checkout
+/profile
+Imágenes de productos
+mejor práctica
+
+NO:
+
+public/
+
+para productos dinámicos.
+
+SÍ:
+
+Firebase Storage
+
+porque:
+
+admin sube imagen
+Firebase genera URL
+Firestore guarda URL
+React la muestra
+
+Eso es profesional.
+
+Resumen brutalmente honesto
+Productos → Firebase
+IA → Render backend
+Frontend → Vercel
+Imágenes → Storage
+Auth → Firebase
+
+Eso está muy bien armado.
+
+Mucho mejor que MockAPI.

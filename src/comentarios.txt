@@ -1,0 +1,337 @@
+=========================================================
+  DOCUMENTACION TECNICA - TIENDA REACT + FIREBASE + MERCADOPAGO
+=========================================================
+
+//admin ndchiariello@gmail.con pass nestdan01
+
+---------------------------------------------------------
+1. CICLO DE VIDA DEL USUARIO (flujo completo)
+---------------------------------------------------------
+
+PASO 1 - La app arranca
+  App.jsx monta AuthProvider y CartProvider.
+  AuthProvider instala un observador en Firebase (onAuthStateChanged).
+  con !loading && children opta por mostar todo el aargol de la aplicacion dentro de las etiquetas
+  de  AuthProvider que engloban al arbol 
+  Mientras Firebase no responde, loading = true y la app no muestra nada.
+  Hasta tanto el usuario este autenticado .o sea se lo identifica
+  Cuando Firebase confirma si hay sesion o no, loading pasa a false y la app se renderiza.
+
+PASO 2 - El usuario navega por el catalogo
+  CatalogoProductos se monta y ejecuta su useEffect de carga.
+  Llama a obtenerProductos() del service cargaProductos.jsx.
+  Si Firestore responde: muestra los productos.
+  Si Firestore falla: carga el fallback desde /data/productos.json (public/).
+
+  CONTEXTO Y CARTPROVIDER:
+  CartProvider vive en App.jsx por encima de todas las rutas.
+  Crea el CartContext con createContext() y lo expone via CartContext.Provider.
+  Esto significa que el estado del carrito (carrito[], vaciarCarrito, agregarAlCarrito,
+  totalUnidades) existe en un unico lugar en memoria y es accesible desde cualquier
+  componente hijo sin pasar props manualmente.
+  CatalogoProductos consume CartContext via useContext(CartContext) para llamar
+  a agregarAlCarrito() cuando el usuario compra un producto.
+  Carrito consume el mismo CartContext para leer carrito[] y mostrar los items.
+  Ambos componentes estan en rutas distintas y nunca se comunican directamente.
+  CartProvider es el intermediario: mantiene el estado vivo mientras el usuario
+  navega entre paginas. Cuando CatalogoProductos escribe (agrega al carrito),
+  Carrito lee el resultado aunque sean componentes completamente separados.
+  Este patron se llama Context API y evita el "prop drilling" (pasar datos por
+  multiples niveles de componentes que no los necesitan).
+
+  El usuario puede agregar productos al carrito sin estar logueado.
+  El carrito vive en CartContext (memoria, no persistido en base de datos).
+
+PASO 3 - El usuario va al carrito
+  Lee el estado del CartContext: items, cantidades, totales.
+  Si el totalBruto supera $1.000.000 se genera un codigo de bono del 30%.
+  El usuario puede ingresar el codigo para aplicar el descuento.
+  El descuento se calcula sobre el totalBruto, no por articulo.
+
+PASO 4 - El usuario presiona "Finalizar compra"
+  Si no esta logueado: alert + redireccion a /login.
+  Si esta logueado: continua el flujo de compra.
+
+PASO 5 - Se procesa la compra
+  Se arma el objeto nuevaOrden con los datos del usuario, items y totales.
+  Se llama a crearOrden() del service ordenesService.js -> guarda en Firestore con estado "pendiente".
+  Se llama al backend Express (localhost:3001/pagos) para crear la preferencia en MercadoPago.
+  Si el backend falla: se muestra el error y la orden queda en "pendiente" sin redirigir.
+  Si el backend responde con data.init_point: se vacia el carrito y se redirige al checkout de MercadoPago.
+
+PASO 6 - El usuario paga en MercadoPago
+  MercadoPago muestra el checkout con el monto total como un unico item ("Compra tienda online").
+  Al terminar redirige segun el resultado (manual en localhost, automatico en produccion con auto_return):
+    - Pago aprobado  -> /pago-exitoso?orderId=xxx  -> estado: "pagada"
+    - Pago fallido   -> /pago-fallido?orderId=xxx  -> estado: "fallida"
+    - Pago pendiente -> /pago-pendiente?orderId=xxx -> estado: "pendiente" (con payment_id)
+
+PASO 7 - Actualizacion de la orden
+  Cada pagina (PagoExitoso, PagoFallido, PagoPendiente) lee el orderId de la URL.
+  Llama a actualizarEstadoOrden() del service ordenesService.js.
+  Actualiza en Firestore solo los campos: estado, payment_id, payment_status.
+  El resto de los campos de la orden (items, totales, usuario) quedan intactos.
+
+
+---------------------------------------------------------
+2. FUNCIONES CALLBACK - DONDE Y POR QUE SE USAN
+---------------------------------------------------------
+
+A) crearCallbackCompra(productoId) - CatalogoProductos.jsx
+   Es una funcion que retorna otra funcion (patron closure/fabrica).
+   Se llama una vez por cada producto al renderizar la grilla.
+   Captura el productoId en su closure.
+   Devuelve una funcion (cantidad) => { ... } que se pasa a Item como prop onCompra.
+   Cuando el usuario hace clic en "Comprar" en Item, Item llama onCompra(cantidadSeleccionada).
+   Esa llamada llega al callback con el id ya capturado, busca el producto,
+   llama a agregarAlCarrito() y actualiza el stock en Firestore.
+   Por que: Item no sabe que producto es ni donde va el dato.
+   Solo informa cuanto quiere comprar. El callback une ambos mundos.
+
+B) agregarAlCarrito(producto, cantidad) - CartProvider.jsx
+   Recibe la funcion de actualizacion del estado: setCarrito(prev => ...).
+   Usa la forma funcional de setCarrito para leer el estado mas actualizado.
+   Si el producto ya existe en el carrito, suma la cantidad.
+   Si es nuevo, lo agrega con spread operator: [...prev, { ...producto, cantidad }].
+   Por que funcional: evita leer un estado desactualizado en actualizaciones rapidas.
+
+C) onAuthStateChanged(auth, callback) - AuthProvider.jsx
+   Firebase llama a este callback cada vez que el estado de autenticacion cambia,
+   pero tambien lo llama al arrancar la app para informar el estado inicial.
+   Esto significa que se ejecuta siempre: tanto si hay sesion activa como si no la hay.
+   El callback recibe currentUser (objeto usuario) o null (sin sesion).
+   Si hay usuario: busca su rol en Firestore y actualiza el estado global (user, rol).
+   Si no hay usuario: limpia user y rol a null. En ambos casos la app se renderiza,
+   porque en ambos casos setLoading(false) se ejecuta al final.
+   Por que callback: Firebase maneja la autenticacion de forma asincrona.
+   No sabemos cuando va a responder (puede ser rapido o lento segun la red).
+   El callback es el mecanismo que Firebase usa para avisarnos cuando tiene la respuesta,
+   sin que tengamos que preguntar repetidamente.
+   La funcion unsubscribe que retorna useEffect elimina el observador al desmontar,
+   evitando actualizaciones de estado en un componente que ya no existe.
+
+D) onChange={(e) => setInputBono(e.target.value.toUpperCase())} - Carrito.jsx
+   Callback de evento de React. Se ejecuta cada vez que el usuario tipea en el input.
+   Recibe el evento e, extrae el valor del input y lo convierte a mayusculas.
+   Actualiza el estado inputBono en tiempo real.
+   Por que: React necesita controlar el valor del input (controlled component).
+
+E) onClick={aplicarBono} - Carrito.jsx
+   Callback de evento asignado al boton "Aplicar".
+   Compara inputBono con codigoBono generado para esta sesion.
+   Si coinciden: setBonoAplicado(true).
+   Si no: setErrorBono con mensaje de error.
+
+F) getClass({ isActive }) - Navbar.jsx
+   Callback que NavLink ejecuta automaticamente.
+   NavLink le pasa { isActive: true/false } segun si la ruta actual coincide con el "to".
+   Devuelve una clase CSS o dos segun el valor de isActive.
+   Por que: permite aplicar estilos visuales al link de la ruta activa.
+
+
+---------------------------------------------------------
+3. IMPLEMENTACION DE MERCADO PAGO
+---------------------------------------------------------
+
+ARQUITECTURA
+  Frontend (React) <-> Backend Express (server.js) <-> API MercadoPago
+  El token de acceso NUNCA sale al frontend. Solo vive en server.js via .env.
+
+FLUJO TECNICO
+
+  3.1 - CREACION DE LA PREFERENCIA (server.js - endpoint POST /pagos)
+    Recibe del frontend: items, totalFinal, orderId.
+    Construye un unico item resumen:
+      { title: "Compra tienda online", quantity: 1, unit_price: totalFinal, currency_id: "ARS" }
+    Esto simplifica el manejo de descuentos: React calcula todo y envia solo el total final.
+    Llama a preference.create() del SDK de MercadoPago con:
+      - items: el item resumen
+      - back_urls: URLs a donde redirigir segun el resultado del pago
+        success -> /pago-exitoso?orderId=xxx
+        failure -> /pago-fallido?orderId=xxx
+        pending -> /pago-pendiente?orderId=xxx
+    Devuelve al frontend: { id, init_point }
+
+  3.2 - REDIRECCION AL CHECKOUT (Carrito.jsx)
+    window.location.href = data.init_point
+    init_point es la URL del checkout que MercadoPago devuelve por convencion.
+    Es la forma recomendada por MercadoPago (no construir la URL manualmente).
+
+  3.3 - RETORNO DEL PAGO (PagoExitoso / PagoFallido / PagoPendiente)
+    MercadoPago incluye en la URL de retorno: orderId, payment_id, status.
+    Cada componente lee esos parametros con useSearchParams().
+    Llama a actualizarEstadoOrden() del service para actualizar Firestore.
+
+  3.4 - QUE ES UNA PREFERENCIA
+    El termino viene de la API de MercadoPago. Es la configuracion que le indicamos
+    a MercadoPago ANTES de que ocurra el pago. Le estamos diciendo nuestras "preferencias"
+    para esa transaccion: que se vende, cuanto cuesta, en que moneda, a donde redirigir.
+    MercadoPago la almacena en sus servidores y le asigna un ID unico.
+    Cuando el usuario llega al checkout con ese ID, MercadoPago sabe exactamente
+    que mostrar y cuanto cobrar. La preferencia y el pago son dos objetos distintos:
+    la preferencia es la configuracion previa, el pago es el evento que ocurre
+    cuando el usuario confirma con su tarjeta.
+
+  3.5 - AUTO_RETURN (actualmente comentado)
+    auto_return: "approved" hace que MercadoPago redirija automaticamente
+    a back_urls.success cuando el pago es aprobado, sin que el usuario tenga
+    que hacer nada. Sin esta linea, MercadoPago muestra una pantalla de confirmacion
+    pero el usuario debe volver manualmente al sitio.
+    La razon por la que esta comentada durante el desarrollo es tecnica:
+    MercadoPago valida que back_urls.success sea una URL publica y accesible
+    desde sus servidores. localhost:5173 no es publica, solo existe en la maquina
+    del desarrollador. Cuando MercadoPago intenta verificarla, falla y devuelve
+    el error "auto_return invalid. back_url.success must be defined".
+    En produccion (cuando el frontend este deployado en Vercel o similar),
+    las URLs seran publicas del tipo https://mi-tienda.vercel.app/pago-exitoso
+    y en ese momento se puede descomentar auto_return: "approved" para que
+    la redireccion sea automatica al completar el pago.
+
+  3.6 - MODO PRUEBA / PRODUCCION
+    Token TEST-... -> usa cuentas de prueba (Seller + Buyer Test User)
+    Token APP_USR-... -> produccion real
+    sandbox_init_point -> checkout de pruebas
+    init_point -> checkout productivo
+
+
+---------------------------------------------------------
+4. SEPARACION DE RESPONSABILIDADES (services)
+---------------------------------------------------------
+
+  cargaProductos.jsx   -> CRUD de productos con Firestore + fallback JSON
+  ordenesService.js    -> crear y actualizar ordenes en Firestore
+  migrarDatosIniciales.js -> seed inicial de la base de datos (comentado, historico)
+  pruebaLectura.js     -> diagnostico al arrancar: lee y loguea productos en consola
+
+
+---------------------------------------------------------
+5. ESTADO GLOBAL vs ESTADO LOCAL
+---------------------------------------------------------
+
+  CartContext (CartProvider)  -> carrito, totalUnidades - compartido entre rutas
+  AuthContext (AuthProvider)  -> user, rol, loading    - compartido en toda la app
+  useState en Carrito.jsx     -> codigoBono, bonoAplicado, inputBono - local al componente
+  useState en CatalogoProductos -> productos, loading, error - local al componente
+
+  ESTADO DERIVADO:
+  totalUnidades = carrito.reduce(...) -> se recalcula en cada render, no es un estado separado.
+  totalBruto, descuento, totalFinal -> calculados en el render de Carrito, no almacenados.
+  Esto evita la doble fuente de verdad (two sources of truth).
+
+---------------------------------------------------------
+6. INCONVENIENTES CON MERCADO PAGO Y COMO SE RESOLVIERON
+---------------------------------------------------------
+
+PROBLEMA 1 - Internal Server Error al crear la preferencia
+  Error: "Error al generar el pago"
+  Causa: El token de acceso en el .env tenia espacios alrededor del signo igual:
+    MERCADOPAGO_ACCESS_TOKEN = APP_USR-...
+  Node leia el token con espacios incluidos, lo que lo invalidaba ante la API de MercadoPago.
+  Solucion: Eliminar los espacios:
+    MERCADOPAGO_ACCESS_TOKEN=APP_USR-...
+  Leccion: En archivos .env no se usan espacios alrededor del =.
+
+PROBLEMA 2 - URL de redireccion a MercadoPago rota
+  Error: el usuario no era redirigido al checkout despues de confirmar la compra.
+  Causa: La URL tenia un bug de interpolacion. Faltaba el signo $ en el template literal:
+    window.location.href = `https://mercadopago.com.ar{data.id}`;  // mal
+  Solucion: Corregir la interpolacion:
+    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
+  Luego se simplfico usando el init_point que devuelve MercadoPago directamente:
+    window.location.href = data.init_point;
+  Leccion: data.init_point es la URL oficial que MercadoPago provee por convencion
+  en la respuesta de la preferencia. Es la forma recomendada.
+
+PROBLEMA 3 - auto_return invalid. back_url.success must be defined
+  Error devuelto por MercadoPago al intentar crear la preferencia.
+  Causa: Se habia activado auto_return: "approved" con back_urls apuntando a localhost.
+  MercadoPago valida que las back_urls sean URLs publicas accesibles desde internet.
+  localhost no es una URL publica, solo existe en la maquina del desarrollador.
+  Solucion: Comentar auto_return: "approved" durante el desarrollo local.
+  Las back_urls siguen definidas correctamente para cuando se despliegue en produccion.
+
+PROBLEMA 4 - At least one policy returned UNAUTHORIZED
+  Error 500 del servidor al intentar crear la preferencia.
+  Causa: El token de acceso era invalido. Se estaba usando el nombre de usuario
+  de la cuenta de prueba (TESTUSER3920171327548682112) en lugar del access token real.
+  El nombre de usuario y el access token son cosas distintas:
+    - nombre de usuario: identifica la cuenta (TESTUSER...)
+    - access token: clave de autorizacion para usar la API (TEST-... o APP_USR-...)
+
+  *** QUE ES EL ACCESS TOKEN ***
+  El ACCESS TOKEN es la clave que autoriza al servidor a hacer llamadas a la API
+  de MercadoPago en nombre de la cuenta del vendedor. Sin el, MercadoPago no sabe
+  quien esta haciendo la solicitud y devuelve UNAUTHORIZED.
+  Va en el archivo .env del servidor (NUNCA en el frontend):
+    MERCADOPAGO_ACCESS_TOKEN=APP_USR-8395297306015993-...
+  Y se usa en server.js para configurar el cliente oficial del SDK:
+    const client = new MercadoPagoConfig({
+      accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
+    });
+
+  *** CONFUSION QUE COSTO COMPRENDER - EL PREFIJO NO DETERMINA EL ENTORNO ***
+  Durante el desarrollo se asumio que:
+    TEST-...    = sandbox (pruebas)
+    APP_USR-... = produccion (pagos reales)
+  Esto es INCORRECTO y genero varios errores dificiles de diagnosticar.
+
+  La realidad es que el prefijo del token (TEST- o APP_USR-) NO determina
+  si se esta en modo prueba o en produccion.
+  Lo que determina el entorno es DE QUE CUENTA proviene el token:
+    - Si el token fue generado desde las CREDENCIALES DE PRUEBA de una cuenta
+      (sea TEST- o APP_USR-), opera en sandbox. Las transacciones son simuladas.
+    - Si el token fue generado desde las CREDENCIALES DE PRODUCCION,
+      opera en produccion. Las transacciones son reales y mueven dinero real.
+
+  En nuestro caso el token en uso es:
+    APP_USR-8395297306015993-063014-...-3507432147
+  El User ID 3507432147 corresponde al Seller Test User del panel de pruebas.
+  Por lo tanto aunque empieza con APP_USR-, este token opera en SANDBOX.
+  Las transacciones son simuladas y no mueven dinero real.
+
+  RESUMEN: No mirar el prefijo del token. Verificar siempre desde que seccion
+  del panel de MercadoPago fue obtenido: "Credenciales de prueba" o "Produccion".
+  *** FIN CONFUSION ***
+
+  *** FIN ACCESS TOKEN ***
+
+  Solucion: Obtener el access token real desde el panel de developers de MercadoPago
+  (Integraciones -> Credenciales de prueba -> ccess Token) y usarlo en el .env.
+
+PROBLEMA 5 - Descuentos rechazados por MercadoPago
+  Error al intentar enviar los items con precios individuales ya descontados.
+  Causa: MercadoPago tiene validaciones internas sobre los precios y los descuentos
+  proporcionales calculados por item podian generar inconsistencias o valores
+  que no pasaban las validaciones de la API.
+  Solucion: Cambiar la estrategia. En lugar de enviar cada producto con su precio
+  descontado, se envia un unico item resumen con el total final ya calculado en React:
+    { title: "Compra tienda online", quantity: 1, unit_price: totalFinal, currency_id: "ARS" }
+  React calcula todo (bruto, descuento, total) y le pasa a MercadoPago solo el numero final.
+  Leccion: Para un e-commerce con logica de descuentos propia, es mas simple y seguro
+  delegar el calculo al frontend y enviar un unico monto a MercadoPago.
+
+PROBLEMA 6 - "Una de las partes con la que intentas hacer el pago es de prueba"
+  Error mostrado por MercadoPago en el checkout al intentar pagar.
+  Causa: Se estaba mezclando una cuenta vendedora de prueba (token TEST-...)
+  con una tarjeta real o una cuenta compradora real.
+  MercadoPago en modo sandbox requiere que AMBAS partes sean de prueba:
+    - Vendedor: cuenta con token TEST-... configurado en el servidor
+    - Comprador: iniciar sesion en el checkout con el Buyer Test User
+      (TESTUSER3168... con contrasena jo5dkclPpn) y usar tarjetas de prueba
+  Solucion: Iniciar sesion en el checkout con el Buyer Test User y usar
+  las tarjetas de prueba que provee MercadoPago en su panel de developers.
+
+PROBLEMA 7 - La orden quedaba en estado "pendiente" aunque el pago fuera aprobado
+  Causa: MercadoPago no redirige automaticamente siAn auto_return activado.
+  El usuario completaba el pago pero quedaba en la pantalla de MercadoPago
+  sin volver a la app. La pagina /pago-exitoso nunca se cargaba y por lo tanto
+  Firestore nunca recibia la actualizacion del estado de la orden.
+  Solucion: Se implementaron tres paginas de retorno (PagoExitoso, PagoFallido,
+  PagoPendiente). Cada una lee el orderId de la URL y llama a actualizarEstadoOrden()
+  del service para actualizar Firestore. En desarrollo se navega manualmente a esas
+  URLs. En produccion con auto_return activado la redireccion sera automatica.
+MercadoPago aprueba el pago ✔
+MercadoPago intenta redirigir a http://localhost:5173/pago-exitoso?orderId=xxx
+Como auto_return está comentado, no redirige automáticamente
+PagoExitoso.jsx nunca se carga
+La orden queda en "pendiente" en Firestore hasta que se despliegue en vercel en la segunda etapa del proyecto

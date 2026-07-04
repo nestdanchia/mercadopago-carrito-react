@@ -1,0 +1,35 @@
+/* =========================================================
+   CLASES REUTILIZABLES GLOBALES
+   Estas clases se pueden usar en cualquier componente
+   sin necesidad de crear un módulo CSS nuevo.
+   ========================================================= */
+
+/* Centra el contenido y limita su ancho máximo */
+.container {
+  width: min(var(--container-width), 100%);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* Texto secundario en gris medio */
+.text-light {
+  color: var(--gray-mid);
+}
+
+/* Bloque de "no hay nada para mostrar" */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--gray-mid);
+}
+
+/* =========================================================
+   RESPONSIVE GLOBAL
+   En pantallas chicas reducimos un poco el tamaño base
+   ========================================================= */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,20 @@
+/* =========================================================
+   LAYOUT
+   Envuelve toda la página: header arriba, footer abajo,
+   y el contenido del medio crece para ocupar el espacio.
+   ========================================================= */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;  /* apila header → main → footer */
+}
+
+/* flex: 1 hace que el main crezca y empuje el footer hacia abajo,
+   aunque la página tenga poco contenido */
+.main {
+  flex: 1;
+  width: min(var(--container-width), 100%);
+  margin-inline: auto;  /* centra horizontalmente */
+  padding: 2rem 1rem;
+}

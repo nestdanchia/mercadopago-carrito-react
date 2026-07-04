@@ -1,0 +1,64 @@
+/* =========================================================
+   NAVBAR
+   Fila de links de navegación dentro del header.
+   ========================================================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.logoutButton {
+  background: rgb(232, 65, 19);
+  color: #9dff00;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  opacity: 0.9;
+}
+/* =========================================================
+   LINKS
+   Fondo blanco con texto naranja. Al hacer hover se invierte.
+   ========================================================= */
+
+.link {
+  background-color: var(--white);       /* fondo blanco por defecto */
+  color: var(--orange-fire);            /* texto naranja fuego */
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+/* Al pasar el mouse: fondo naranja, texto blanco, sube un poco */
+.link:hover {
+  background-color: var(--orange-fire);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* Ruta activa: mismo estilo que hover pero permanente */
+.active {
+  background-color: var(--orange-fire);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   RESPONSIVE
+   En móvil los links se centran
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: center;
+  }
+}
