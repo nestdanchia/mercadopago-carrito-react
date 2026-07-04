@@ -12,9 +12,9 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 | Backend (Render) | [URL] |
 
 **Usuario administrador para que el profesor pruebe el CRUD:**
+Credenciales de administrador: fueron enviadas al docente docente.
 
-- **Email:** ndchiariello@gmail.com
-- **Contraseña:** nestdan01
+- 
 
 ---
 

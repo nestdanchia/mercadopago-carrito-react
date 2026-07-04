@@ -2,7 +2,7 @@
   DOCUMENTACION TECNICA - TIENDA REACT + FIREBASE + MERCADOPAGO
 =========================================================
 
-//admin ndchiariello@gmail.con pass nestdan01
+
 
 ---------------------------------------------------------
 1. CICLO DE VIDA DEL USUARIO (flujo completo)
