@@ -4,7 +4,71 @@ import dotenv from "dotenv";
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 dotenv.config();
+/**
+ /**
+ * process.env contiene las variables de entorno del proceso de Node.js.
+ *
+ * ¿De dónde salen?
+ * - En desarrollo: del archivo .env mediante dotenv.
+ * - En producción: de las variables configuradas en el servidor
+ *   (por ejemplo, Render o Vercel).
+ *
+ * dotenv.config() lee el archivo .env y carga sus variables en process.env.
+ *
+ * Ejemplos:
+ * process.env.MERCADOPAGO_ACCESS_TOKEN
+ * process.env.GROQ_API_KEY
+ * process.env.OPENROUTER_API_KEY
+ * process.env.CLIENT_URL
+  * Las URLs deben ser públicas para que servicios externos
+ * (como Mercado Pago) puedan redirigir correctamente al frontend.
+ * 
+ * 
+ */
+/**
+ * Variables de entorno según el entorno de ejecución
+ *
+ * ┌──────────────────────────────┬──────────────────────────────┬───────────────────────────────────────────────┐
+ * │ Entorno                      │ Variables utilizadas         │ ¿Quién las proporciona?                       │
+ * ├──────────────────────────────┼──────────────────────────────┼───────────────────────────────────────────────┤
+ * │ Node (desarrollo)            │ process.env                 │ dotenv lee el archivo .env                    │
+ * │ Render (backend producción)  │ process.env                 │ Render inyecta las variables configuradas     │
+ * │ Vite (desarrollo)            │ import.meta.env.VITE_*      │ Vite lee el archivo .env automáticamente      │
+ * │ Vercel (frontend producción) │ import.meta.env.VITE_*      │ Vercel inyecta las variables VITE_* del panel │
+ * └──────────────────────────────┴──────────────────────────────┴───────────────────────────────────────────────┘
+ *
+ * Backend (Node / Render)
+ * -----------------------
+ * process.env.MERCADOPAGO_ACCESS_TOKEN
+ * process.env.CLIENT_URL
+ * process.env.GROQ_API_KEY
+ * process.env.OPENROUTER_API_KEY
+ *
+ * Frontend (Vite / Vercel)
+ * ------------------------
+ * import.meta.env.VITE_API_URL
+ * import.meta.env.VITE_FIREBASE_API_KEY
+ * import.meta.env.VITE_FIREBASE_AUTH_DOMAIN
+ * import.meta.env.VITE_FIREBASE_PROJECT_ID
+ * ...
+ * Node
+│
+└── process
+      │
+      └── env
 
+   Vite
+│
+└── import
+      │
+      └── meta
+             │
+             └── env
+             
+process.env → "las variables del proceso de Node".
+import.meta.env → "las variables del entorno asociadas al módulo que Vite
+ expone durante el desarrollo y la compilación".    
+ */
 const app = express();
 
 app.use(cors());
@@ -53,9 +117,9 @@ app.post("/pagos", async (req, res) => {
       body: {
         items: itemsMercadoPago,
         back_urls: {
-          success: `http://localhost:5173/pago-exitoso?orderId=${orderId}`,
-          failure: `http://localhost:5173/pago-fallido?orderId=${orderId}`,
-          pending: `http://localhost:5173/pago-pendiente?orderId=${orderId}`,
+          success: `${CLIENT_URL}/pago-exitoso?orderId=${orderId}`,
+          failure: `${CLIENT_URL}/pago-fallido?orderId=${orderId}`,
+          pending: `${CLIENT_URL}/pago-pendiente?orderId=${orderId}`,
         },
         // auto_return: "approved" requiere URLs públicas.
         // En localhost funciona manualmente navegando a /pago-exitoso?orderId=...
@@ -158,7 +222,11 @@ app.post("/chat", async (req, res) => {
     return res.status(500).json({ texto: "El servicio de IA no está disponible." });
   }
 });
+// como para RENDER  En Render el sistema crea una variable de entorno llamada PORT.
 
-app.listen(3001, () => {
-  console.log("Servidor corriendo en http://localhost:3001");
+console.log("Puerto donde se levanta el servidor en render :", process.env.PORT);
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

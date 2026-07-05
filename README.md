@@ -9,7 +9,14 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 | Recurso | URL |
 |---|---|
 | Frontend (Vercel) | [URL] |
-| Backend (Render) | [URL] |
+| Backend (Render) | ## 🚀 Despliegue en Producción
+
+El backend de esta aplicación se encuentra desplegado y operativo en la nube:
+
+* **URL del Servidor:** [https://mercadopago-carrito-react.onrender.com](https://mercadopago-carrito-react.onrender.com)
+
+> 💡 **Nota sobre el plan gratuito:** Al estar alojado en una instancia gratuita de Render, si el servidor pasa un tiempo sin recibir peticiones se "duerme". Por este motivo, la primera solicitud (ya sea para iniciar un pago o usar el chat de IA) puede demorar unos 50 segundos en responder mientras el servicio se vuelve a activar. Las siguientes peticiones funcionarán de manera inmediata.
+ |
 
 **Usuario administrador para que el profesor pruebe el CRUD:**
 Credenciales de administrador: fueron enviadas al docente docente.
@@ -84,7 +91,7 @@ Credenciales de administrador: fueron enviadas al docente docente.
 ## Estructura del proyecto
 
 ```
-TPprimerEntrega/
+TP/
 │
 ├── public/
 │   ├── data/
@@ -93,7 +100,8 @@ TPprimerEntrega/
 │
 ├── src/
 │   ├── components/
-│   │   ├── Administrar/          ← CRUD productos, tabla órdenes, promover admin
+│   │   ├── Administrar/          ← CRUD productos, tabla  
+                                    órdenes, promover admin     
 │   │   ├── Auth/                 ← Login y Registro
 │   │   ├── Carrito/              ← Carrito y CarritoItem
 │   │   ├── CatalogoProductos/    ← Grilla de productos
@@ -121,7 +129,8 @@ TPprimerEntrega/
 │
 ├── server.js                     ← Backend Express (IA + Mercado Pago)
 ├── package.json
-├── .env                          ← Variables de entorno (no se sube a Git)
+├── .env                          ← Variables de entorno (no se 
+                                                         suben a Git)
 └── README.md
 ```
 
