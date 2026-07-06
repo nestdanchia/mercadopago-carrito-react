@@ -6,9 +6,9 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 
 ## Demo en vivo
 
-| Recurso | URL |
+|  github https://github.com/nestdanchia/mercadopago-carrito-react.git |
 |---|---|
-| Frontend (Vercel) | [URL] |
+| Frontend (Vercel) | https://mercadopago-carrito-react.vercel.app] |
 | Backend (Render) | ## 🚀 Despliegue en Producción
 
 El backend de esta aplicación se encuentra desplegado y operativo en la nube:
