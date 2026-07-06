@@ -52,7 +52,7 @@ function App() {
               element={
                 <RutaPrivadaElemental>
                   <div>
-                    <h2>Área Privada</h2>
+                    <h2>Ordenes</h2>
                     <p>Ves este mensaje porque te autenticaste como administrador.</p>
                     <PromoverAdmin />
                     <TablaOrdenes />

@@ -95,7 +95,7 @@ export default function Login() {
                 onClick={() => navigate("/privada")}
                 style={{ backgroundColor: "#6a1b9a", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", textAlign: "left" }}
               >
-                Área Privada
+                Ordenes
               </button>
               <button
                 onClick={() => navigate("/")}

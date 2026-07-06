@@ -48,7 +48,7 @@ const Navbar = () => {
       {user ? (
         <>
           <NavLink to="/privada" className={getClass}>
-            Área Privada
+            Ordenes
           </NavLink>
 
           <button
