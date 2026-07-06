@@ -66,8 +66,7 @@ FLUJO COMPLETO DE PRUEBA
 CUENTA ADMINISTRADOR
 ---------------------------------------------------------
 
-Email:      ndchiariello@gmail.com
-Contraseña: nestdan01
+Las credenciales de administrador fueron enviadas al docente por correo.
 
 Desde el área de administración (/privada) se puede:
 - Ver todas las órdenes generadas

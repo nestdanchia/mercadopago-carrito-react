@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
-//admin ndchiariello@gmail.con pass nestdan01
 // Firebase es quien sabe si hay un usuario autenticado.
 //  React espera esa respuesta antes de renderizar la aplicación.
 import {
