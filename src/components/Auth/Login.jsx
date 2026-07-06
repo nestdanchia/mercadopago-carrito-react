@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth/AuthProvider';
+import styles from './Login.module.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -52,21 +53,30 @@ export default function Login() {
   // Vista de recuperación de contraseña
   if (modoReset) {
     return (
-      <div>
+      <div className={styles.contenedor}>
         <h2>Recuperar contraseña</h2>
-        <form onSubmit={handleReset}>
-          <input
-            type="email"
-            placeholder="Tu email registrado"
-            value={emailReset}
-            onChange={(e) => setEmailReset(e.target.value)}
-            required
-          />
-          <button type="submit">Enviar email de recuperación</button>
+        <form className={styles.formularioVertical} onSubmit={handleReset}>
+          <div className={styles.grupoCampo}>
+            <input
+              type="email"
+              placeholder="Tu email registrado"
+              value={emailReset}
+              onChange={(e) => setEmailReset(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.grupoAcciones}>
+            <button type="submit" className={styles.btnPrincipal}>
+              Enviar email de recuperación
+            </button>
+          </div>
         </form>
-        {mensajeReset && <p style={{ color: "green" }}>{mensajeReset}</p>}
-        {errorReset   && <p style={{ color: "red"   }}>{errorReset}</p>}
-        <button onClick={() => { setModoReset(false); setMensajeReset(null); setErrorReset(null); }}>
+        {mensajeReset && <p className={styles.mensajeOk}>{mensajeReset}</p>}
+        {errorReset   && <p className={styles.mensajeError}>{errorReset}</p>}
+        <button
+          className={styles.linkRecuperacion}
+          onClick={() => { setModoReset(false); setMensajeReset(null); setErrorReset(null); }}
+        >
           Volver al login
         </button>
       </div>
@@ -74,58 +84,28 @@ export default function Login() {
   }
 
   // Si hay sesión activa (user del contexto), muestra bienvenida con accesos según rol.
-  // Esta condición se cumple tanto al hacer login como al volver a /login
-  // desde otra ruta — porque user persiste en el contexto mientras la sesión exista.
   if (user) {
     return (
-      <div style={{ padding: "1.5rem" }}>
+      <div className={styles.contenedor}>
         <h2 style={{ color: "#2e7d32" }}>¡Sesión iniciada!</h2>
 
         {rol === "admin" ? (
           <div>
             <p>Bienvenido, administrador. Tenés disponibles los siguientes accesos:</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginTop: "1rem" }}>
-              <button
-                onClick={() => navigate("/admin")}
-                style={{ backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", textAlign: "left" }}
-              >
-                Panel de Administración — gestionar productos
-              </button>
-              <button
-                onClick={() => navigate("/privada")}
-                style={{ backgroundColor: "#6a1b9a", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", textAlign: "left" }}
-              >
-                Ordenes
-              </button>
-              <button
-                onClick={() => navigate("/")}
-                style={{ backgroundColor: "#455a64", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", textAlign: "left" }}
-              >
-                Ir al catálogo
-              </button>
-              <button
-                onClick={() => logout()}
-                style={{ backgroundColor: "#b71c1c", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", textAlign: "left" }}
-              >
-                Cerrar sesión
-              </button>
+            <div style={{ display: "flex", flexDirection: "column", marginTop: "1rem" }}>
+              <button className={`${styles.btnNav} ${styles.btnAdmin}`}    onClick={() => navigate("/admin")}>Panel de Administración — gestionar productos</button>
+              <button className={`${styles.btnNav} ${styles.btnOrdenes}`}  onClick={() => navigate("/privada")}>Órdenes</button>
+              <button className={`${styles.btnNav} ${styles.btnCatalogo}`} onClick={() => navigate("/")}>Ir al catálogo</button>
+              <button className={`${styles.btnNav} ${styles.btnSalir}`}    onClick={() => logout()}>Cerrar sesión</button>
             </div>
           </div>
         ) : (
           <div>
             <p>Bienvenido. Podés explorar el catálogo y realizar compras.</p>
-            <button
-              onClick={() => navigate("/")}
-              style={{ backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", marginTop: "1rem" }}
-            >
-              Ir al catálogo
-            </button>
-            <button
-              onClick={() => logout()}
-              style={{ backgroundColor: "#b71c1c", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer", marginTop: "0.6rem", display: "block" }}
-            >
-              Cerrar sesión
-            </button>
+            <div style={{ display: "flex", flexDirection: "column", marginTop: "1rem" }}>
+              <button className={`${styles.btnNav} ${styles.btnCatalogo}`} onClick={() => navigate("/")}>Ir al catálogo</button>
+              <button className={`${styles.btnNav} ${styles.btnSalir}`}    onClick={() => logout()}>Cerrar sesión</button>
+            </div>
           </div>
         )}
       </div>
@@ -134,30 +114,41 @@ export default function Login() {
 
   // Formulario de login — se muestra cuando no hay sesión activa
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Iniciar Sesión:</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Ingresar</button>
-      <p>
-        <button
-          type="button"
-          onClick={() => setModoReset(true)}
-          style={{ background: "none", border: "none", color: "#1976d2", cursor: "pointer", textDecoration: "underline", padding: 0 }}
-        >
-          ¿Olvidaste tu contraseña?
-        </button>
-      </p>
-    </form>
+    <div className={styles.contenedor}>
+      <form className={styles.formularioVertical} onSubmit={handleSubmit}>
+        <h2>Iniciar Sesión:</h2>
+
+        <div className={styles.grupoCampo}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.grupoCampo}>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.grupoAcciones}>
+          <button type="submit" className={styles.btnPrincipal}>Ingresar</button>
+          <p>
+            <button
+              type="button"
+              className={styles.linkRecuperacion}
+              onClick={() => setModoReset(true)}
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }

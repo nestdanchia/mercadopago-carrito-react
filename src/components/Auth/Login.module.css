@@ -1,0 +1,104 @@
+/* Contenedor centrado de la pantalla de login */
+.contenedor {
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #212121;
+}
+
+/* Formulario vertical */
+.formularioVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Cada campo del formulario */
+.grupoCampo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.grupoCampo input {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.grupoCampo input:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+/* Botón y link de recuperación */
+.grupoAcciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btnPrincipal {
+  padding: 0.6rem 1.2rem;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnPrincipal:hover {
+  background-color: #1565c0;
+}
+
+.grupoAcciones p {
+  margin: 0;
+}
+
+.linkRecuperacion {
+  background: none;
+  border: none;
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* Botones de navegación post-login */
+.btnNav {
+  width: 100%;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.btnAdmin    { background-color: #1976d2; }
+.btnOrdenes  { background-color: #6a1b9a; }
+.btnCatalogo { background-color: #455a64; }
+.btnSalir    { background-color: #b71c1c; }
+
+.btnNav + .btnNav {
+  margin-top: 0.5rem;
+}
+
+/* Mensajes de feedback */
+.mensajeOk    { color: #2e7d32; margin-top: 0.5rem; }
+.mensajeError { color: #c62828; margin-top: 0.5rem; }
