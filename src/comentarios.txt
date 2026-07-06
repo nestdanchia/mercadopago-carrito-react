@@ -335,3 +335,41 @@ MercadoPago intenta redirigir a http://localhost:5173/pago-exitoso?orderId=xxx
 Como auto_return está comentado, no redirige automáticamente
 PagoExitoso.jsx nunca se carga
 La orden queda en "pendiente" en Firestore hasta que se despliegue en vercel en la segunda etapa del proyecto
+
+
+---------------------------------------------------------
+6. POR QUE SE IMPLEMENTO vercel.json
+---------------------------------------------------------
+
+React Router maneja las rutas del lado del cliente (SPA).
+Cuando el usuario navega dentro de la app (de / a /carrito),
+React Router intercepta el cambio y renderiza el componente
+correspondiente sin recargar la pagina — funciona bien.
+
+El problema ocurre cuando el usuario:
+  - Recarga la pagina estando en /carrito, /login, /pago-exitoso, etc.
+  - Entra directamente a una URL como /carrito desde el navegador
+  - MercadoPago redirige a /pago-exitoso?orderId=xxx
+
+En esos casos el navegador hace una peticion real al servidor de Vercel
+pidiendo el archivo /carrito o /pago-exitoso. Vercel busca esos archivos
+en el build y no los encuentra — porque no existen como archivos fisicos,
+solo existen como rutas de React Router. Vercel devuelve un 404.
+
+SOLUCION — vercel.json:
+El "rewrite" le dice a Vercel: para CUALQUIER ruta que llegue,
+servi siempre el archivo index.html. Una vez que index.html carga,
+React Router lee la URL del navegador y renderiza el componente correcto.
+
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+
+Es la configuracion estandar para deployar SPAs (Single Page Applications)
+en Vercel con React Router. Sin este archivo, todas las rutas excepto "/"
+devuelven 404 al recargar o al volver de MercadoPago.
+
+NOTA: JSON no admite comentarios, por eso la explicacion esta aqui
+y no dentro del archivo vercel.json.

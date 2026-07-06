@@ -1,0 +1,98 @@
+=========================================================
+  INSTRUCCIONES PARA PROBAR EL PAGO CON MERCADO PAGO
+=========================================================
+
+El sistema de pagos está integrado con Mercado Pago en modo SANDBOX (pruebas).
+Esto significa que los pagos son simulados y no se mueve dinero real.
+
+Para probar el flujo de pago se deben usar las tarjetas de prueba que
+provee Mercado Pago. NO usar tarjetas reales en modo sandbox.
+
+
+---------------------------------------------------------
+TARJETAS DE PRUEBA DISPONIBLES
+---------------------------------------------------------
+
+Tarjeta              Número               CVV    Vencimiento
+------------------------------------------------------------
+Mastercard           5031 7557 3453 0604  123    11/30
+Visa                 4509 9535 6623 3704  123    11/30
+American Express     3711 803032 57522    1234   11/30
+Mastercard Débito    5287 3383 1025 3304  123    11/30
+Visa Débito          4002 7686 9439 5619  123    11/30
+
+
+---------------------------------------------------------
+ESTADOS DE PAGO SEGÚN EL NOMBRE DEL TITULAR
+---------------------------------------------------------
+
+El resultado del pago se controla escribiendo uno de estos
+valores en el campo "Nombre del titular" de la tarjeta:
+
+Nombre titular  Estado          Descripción                         DNI requerido
+--------------------------------------------------------------------------------
+APRO            Aprobado        Pago aprobado correctamente         12345678
+OTHE            Rechazado       Rechazado por error general         12345678
+CONT            Pendiente       Pendiente de acreditación           -
+CALL            Rechazado       Requiere validación para autorizar  -
+FUND            Rechazado       Importe insuficiente                -
+SECU            Rechazado       Código de seguridad inválido        -
+EXPI            Rechazado       Problema con fecha de vencimiento   -
+FORM            Rechazado       Error de formulario                 -
+
+Ejemplo: para simular un pago aprobado usar cualquier tarjeta
+de la lista con nombre del titular "APRO" y DNI "12345678".
+
+
+---------------------------------------------------------
+FLUJO COMPLETO DE PRUEBA
+---------------------------------------------------------
+
+1. Agregar un producto al carrito desde el catálogo
+2. Ir al carrito y hacer click en "Finalizar compra"
+3. Si no está logueado, iniciar sesión con:
+   Email:      castromanmarita@gmail.com  (cuenta cliente de prueba)
+   o registrar una cuenta nueva
+4. El sistema crea la orden en Firestore con estado "pendiente"
+5. Se redirige al checkout de Mercado Pago
+6. Ingresar los datos de una tarjeta de prueba
+7. Según el nombre del titular ingresado:
+   - APRO → redirige a /pago-exitoso → orden pasa a "pagada"
+   - Rechazo → redirige a /pago-fallido → orden queda como "fallida"
+   - CONT  → redirige a /pago-pendiente → orden queda "pendiente"
+
+
+---------------------------------------------------------
+CUENTA ADMINISTRADOR
+---------------------------------------------------------
+
+Email:      ndchiariello@gmail.com
+Contraseña: nestdan01
+
+Desde el área de administración (/privada) se puede:
+- Ver todas las órdenes generadas
+- Gestionar productos (CRUD)
+- Promover usuarios a administrador
+
+
+---------------------------------------------------------
+POR QUE APARECE LA PANTALLA "ALGO SALIO MAL" DE MERCADO PAGO
+---------------------------------------------------------
+
+Si al intentar pagar aparece la pantalla de error de Mercado Pago
+con el mensaje "Una de las partes con la que intentas hacer el
+pago es de prueba", es porque se está usando una tarjeta real
+(o una cuenta real de Mercado Pago) en modo sandbox.
+
+Esa pantalla pertenece al dominio de Mercado Pago
+(mercadopago.com.ar) y NO puede ser modificada ni personalizada
+por el vendedor. Mercado Pago la llama internamente "fatal error"
+y no ejecuta ninguna redirección hacia el sitio del vendedor
+cuando ocurre — por eso no aparece el botón de volver al carrito.
+
+SOLUCION: usar únicamente las tarjetas de prueba de la tabla
+de arriba. Con esas tarjetas el pago se procesa correctamente
+y las redirecciones funcionan.
+
+En producción con tarjetas reales este error no ocurre.
+=========================================================

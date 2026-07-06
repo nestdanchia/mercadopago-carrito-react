@@ -152,6 +152,9 @@ export function Carrito() {
   return (
     <div>
       <h2>Mi carrito</h2>
+      <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "0.3rem" }}>
+        ℹ️ Para probar el pago con tarjetas de prueba consultá el archivo <strong>INSTRUCCIONES_TARJETAS.txt</strong> en la raíz del proyecto.
+      </p>
 
       {carrito.length === 0 ? (
         <p>El carrito está vacío.</p>
