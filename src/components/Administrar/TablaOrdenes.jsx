@@ -67,11 +67,12 @@ export default function TablaOrdenes() {
 
   return (
     <div style={{ marginTop: "2rem" }}>
-      <h3 style={{ marginBottom: "1rem" }}>Órdenes generadas</h3>
+      <h3 style={{ marginBottom: "1rem" }}>Órdenes generadas :columna eliminar </h3>
 
       {ordenes.length === 0 ? (
         <p>No hay órdenes registradas todavía.</p>
       ) : (
+        
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ backgroundColor: "#f0f0f0" }}>
