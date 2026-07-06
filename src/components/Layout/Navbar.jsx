@@ -39,6 +39,10 @@ const Navbar = () => {
           Registrarse
         </NavLink>
       )}
+      {/* PUERTA VISUAL — control en el Navbar:
+          Muestra el link "Administración" solo si el rol es "admin".
+          Misma lógica que RutaPrivadaElemental pero aplicada a visibilidad,
+          no a acceso. Un cliente no ve la opción, un admin sí. */}
       {rol === "admin" && (
         <NavLink to="/admin" className={getClass}>
           Administración

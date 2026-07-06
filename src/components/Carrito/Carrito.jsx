@@ -55,12 +55,16 @@ export function Carrito() {
 
   const finalizarCompra = async () => {
     if (carrito.length === 0) return;
-    // 1. Bloqueo si el usuario no está autenticado
-  if (!user) {
-    alert("Debés iniciar sesión para finalizar tu compra.");
-    navigate("/login"); // Cambiá "/login" por tu ruta real de autenticación
-    return;
-  }
+    // PUERTA DE COMPRA — control en el carrito:
+    // Verifica que user exista antes de procesar la compra.
+    // user es el objeto de Firebase Auth — si es null, no hay sesión activa.
+    // A diferencia de RutaPrivadaElemental que controla el rol,
+    // esta puerta solo verifica autenticación (cualquier usuario logueado puede comprar).
+    if (!user) {
+      alert("Debés iniciar sesión para finalizar tu compra.");
+      navigate("/login");
+      return;
+    }
 
     const nuevaOrden = {
       usuarioId:     user.uid,

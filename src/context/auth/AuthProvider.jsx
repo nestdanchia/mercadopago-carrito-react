@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
-// Firebase es quien sabe si hay un usuario autenticado.
-//  React espera esa respuesta antes de renderizar la aplicación.
 import {
-  // getAuth, 
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -13,16 +10,61 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../firebase/config';
 
-// 1. Creamos el contexto (la "burbuja" de datos)
-const AuthContext = createContext();
-const register = async (email, password) => {
+// ============================================================
+// AUTENTICACIÓN vs AUTORIZACIÓN — dos conceptos distintos
+// ============================================================
+//
+// AUTENTICACIÓN: verificar QUIÉN es el usuario.
+//   Firebase Auth lo maneja: valida credenciales y emite un Token JWT.
+//
+// AUTORIZACIÓN: determinar QUÉ puede hacer ese usuario.
+//   Firestore + el campo "rol" lo manejan: el token JWT viaja en cada
+//   petición a Firestore, que lo verifica y aplica las reglas de seguridad.
+//
+// FLUJO COMPLETO:
+//
+// PASO 1 — Login y activación de onAuthStateChanged:
+//   El usuario ingresa email y contraseña.
+//   Firebase Auth valida los datos y devuelve un Token JWT al navegador.
+//   El SDK guarda ese token en LocalStorage / IndexedDB automáticamente.
+//   onAuthStateChanged detecta el cambio y avisa: "usuario XYZ_123 autenticado".
+//
+// PASO 2 — setDoc asigna el rol (autorización inicial):
+//   Con el usuario ya autenticado, se ejecuta:
+//     setDoc(doc(db, "usuarios", "XYZ_123"), { rol: "cliente" })
+//
+// PASO 3 — Qué viaja por la red al ejecutar setDoc:
+//   El SDK NO envía texto plano. Envía una petición HTTP/gRPC a Google con:
+//     {
+//       "Authorization": "Bearer eyJhbGciOiJSUzI1NiIs...",  ← Token JWT adjuntado automáticamente
+//       "Payload": { "rol": { "stringValue": "cliente" } }   ← los datos a guardar
+//     }
+//   El SDK adjunta el token automáticamente — no hace falta escribirlo.
+//
+// PASO 4 — Firestore recibe y desempaqueta la petición:
+//   Antes de escribir, Firestore verifica el token JWT.
+//   Si es válido, extrae la identidad y la mapea en request.auth.uid = "XYZ_123".
+//
+// PASO 5 — Las Reglas de Seguridad deciden:
+//   Firestore evalúa las reglas configuradas. Ejemplo:
+//     allow write: if request.auth != null && request.auth.uid == usuarioId;
+//   Si se cumple → escribe el dato. Si no → rechaza la petición.
+//
+// El Token JWT actúa como puente invisible entre lo que detecta Auth
+// y lo que valida Firestore en cada operación de lectura/escritura.
+// ============================================================
 
-  const credencial =
-    await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+// Contexto que distribuye user, rol, loading y las funciones de auth
+// a todos los componentes que lo consuman via useAuth()
+const AuthContext = createContext();
+
+// REGISTRO — primer paso del ciclo de autenticación:
+// 1. Crea el usuario en Firebase Auth (autenticación).
+// 2. Crea su documento en Firestore con rol = "cliente" (autorización inicial).
+//    Todo usuario nuevo nace como "cliente" — solo un admin puede promoverlo.
+// El SDK adjunta el Token JWT automáticamente en la petición a Firestore (Paso 3).
+const register = async (email, password) => {
+  const credencial = await createUserWithEmailAndPassword(auth, email, password);
 
   await setDoc(
     doc(db, "usuarios", credencial.user.uid),
@@ -36,71 +78,73 @@ const register = async (email, password) => {
 };
 
 export function AuthProvider({ children }) {
-  // Cuando React monta AuthProvider: no sabemos nada sobre la autenticacion
+
+  // DOCUMENTO DE IDENTIDAD del usuario (autorización):
+  // rol = null     → Firebase todavía no respondió
+  // rol = "cliente"→ usuario sin privilegios especiales
+  // rol = "admin"  → acceso a rutas y funciones protegidas
+  // Las "puertas" del sistema (RutaPrivadaElemental, Navbar, Carrito)
+  // leen este valor para decidir qué mostrar o permitir.
   const [rol, setRol] = useState(null);
+
+  // Objeto del usuario autenticado de Firebase Auth (o null si no hay sesión).
+  // Contiene uid, email, etc. Dice QUIÉN es el usuario — el rol dice QUÉ puede hacer.
   const [user, setUser] = useState(null);
-  // App arranca → loading = true → la app no muestra
-  // el contenido hasta que se resuelva el estado de autentificación
+
+  // Semáforo que bloquea el renderizado hasta que Firebase confirme el estado.
+  // true  → Firebase no respondió aún → la app no muestra nada ({!loading && children})
+  // false → Firebase respondió → la app renderiza con user y rol correctos
+  // Sin loading, ambos estados serían null un instante al arrancar y las puertas
+  // tomarían decisiones incorrectas (ej: redirigir a un admin al login).
   const [loading, setLoading] = useState(true);
-  
 
-  // 2. Conectamos el Observador al ciclo de vida del componente
   useEffect(() => {
-    // useEffect solamente registra el callback para que lo use luego firebase
+    // useEffect registra el callback — Firebase es quien lo ejecuta más tarde.
+    // onAuthStateChanged se dispara tanto si hay sesión como si no hay —
+    // en ambos casos llega a setLoading(false) y la app se renderiza.
     console.log("Registro de observador de autenticación");
-    // instalamos un oyente hacia firebase paar que nos de el estado de autenticacion
-    //useEffect registra el callback pero no lo ejecuta. Firebase es quien lo ejecuta más tarde
-    // escuchara los cambios de estado de autenticacion y firebase enviara ae ste callback 
-    // funcion de respuesta a currentuser 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
 
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       console.log("onAuthStateChanged:", currentUser);
       console.log("Estado de carga:", loading);
       console.log("Rol:", rol);
       console.log("Usuario:", currentUser);
 
-      setUser(currentUser); // Notifica a React y actualiza el estado global
+      setUser(currentUser); // actualiza la autenticación en el estado global
 
-      // Firebase llamo al callback con currentUser
-      // cgequea si existe o no existe y paar ambos casos 
       if (currentUser) {
-        //  hay usuario → busca el rol en Firestore
+        // Hay usuario autenticado → busca su rol en Firestore (autorización).
+        // El SDK adjunta el Token JWT automáticamente en esta petición (Paso 3).
+        // Firestore verifica el token y aplica las reglas de seguridad (Pasos 4 y 5).
         console.log("usuario conectado con UID:", currentUser.uid);
         console.log("Usuario autenticado:", currentUser);
-        // referencia al documento se construye con doc(db, "colección", "documento")
-        const docRef = doc(
-          db,
-          "usuarios",
-          currentUser.uid
-        );
 
+        const docRef = doc(db, "usuarios", currentUser.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-
-          setRol(
-            docSnap.data().rol
-          );
-
+          // EMISIÓN DEL DOCUMENTO DE IDENTIDAD:
+          // setRol guarda el rol leído de Firestore en el contexto global.
+          // A partir de acá ese valor viaja con el usuario durante toda la sesión
+          // y cada "puerta" lo consulta para autorizar o denegar el acceso.
+          setRol(docSnap.data().rol);
         }
-
-      }
-      else {
-
-        // no hay usuario → limpio todo
-        setUser(null)
-        setRol(null); 
-        
-         
+      } else {
+        // CIERRE DE SESIÓN o sesión inexistente:
+        // Se limpia tanto la autenticación (user) como la autorización (rol).
+        // Todas las puertas quedan cerradas hasta una nueva autenticación.
+        setUser(null);
+        setRol(null);
         console.log("No hay usuario autenticado");
       }
+
       setLoading(false); // Firebase ya respondió, ahora sí podés mostrar la app
     });
 
-    return () => unsubscribe(); // Limpieza al desmontar
+    return () => unsubscribe(); // limpieza al desmontar: cancela el observador
   }, [auth]);
 
-  // 3. Funciones de logueo que interactúan con el mismo objeto 'auth'
+  // Funciones de autenticación que interactúan con Firebase Auth
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -109,46 +153,26 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   };
 
-  // Envía un email de restablecimiento de contraseña al email indicado.
-  // Firebase Authentication maneja todo el flujo — no impacta en Firestore.
+  // Envía un email de restablecimiento de contraseña.
+  // Firebase maneja el envío del link — no impacta en Firestore ni en el rol.
   const resetPassword = (email) => {
-    // su parametro sera el valor en el scope que tiene 
-    // el estado de emailReset en login
     return sendPasswordResetEmail(auth, email);
   };
 
-  // 4. Exportamos los datos y las funciones para que la app los use
-  // user: el usuario autenticado (o null si no hay) de Firebase
-  // login: función para iniciar sesión
-  // logout: función para cerrar sesión
-  // loading: booleano que indica si se está cargando el estado inicial
-  // register: función para registrar un nuevo usuario
+  // Distribuye a toda la app:
+  //   user     → QUIÉN es el usuario (autenticación)
+  //   rol      → QUÉ puede hacer (autorización)
+  //   loading  → semáforo hasta que Firebase responda
+  //   login / logout / register / resetPassword → funciones de auth
   return (
-    // quien llama a register recibe credencial con const { register } = useAuth();
-    //La aplicación permanece "congelada" mientras se averigua el estado de autenticación y el rol.
-    // hasta que setLoading(false)siempre se hace paar que muestre lo que corresponde a cada usuario
+    // La app permanece "congelada" mientras Firebase no confirme el estado.
+    // {!loading && children} garantiza que user y rol ya tienen valores reales
+    // cuando los componentes se renderizan por primera vez.
     <AuthContext.Provider value={{ user, login, logout, loading, register, rol, resetPassword }}>
       {!loading && children}
-      
     </AuthContext.Provider>
   );
 }
-//  Primer render ESPERA {!loading && children} La aplicación queda "esperando a Firebase".***
-//  no renderices hasta que sepas si hay usuario o no 
-// Hook personalizado para consumir el contexto de forma fácil
 
+// Hook personalizado para consumir el contexto desde cualquier componente
 export const useAuth = () => useContext(AuthContext);
-/**
- * El useEffect Se ejecuta una sola vez cuando AuthProvider se monta (porque el valor de auth no cambia en la práctica).
-Instala el observador (onAuthStateChanged) para que Firebase pueda avisar cada cambio de autenticación.
-Actualiza el estado global de React (user, rol y loading) cuando Firebase notifica un cambio.
-Elimina el observador al desmontarse el componente mediante:
-return () => unsubscribe();
- * Sin loading, cuando la app arranca, user es null por un instante 
- * (Firebase todavía no respondió). Una ruta privada vería user = null 
- * y mandaría al usuario al login aunque ya estuviera autenticado. 
- * Con loading = true le decís "no tomes decisiones todavía".
- * loading es el semáforo entre "Firebase todavía no me contestó" y "ya sé todo, podés mostrar la app". Sin él, React renderiza con datos incompletos y 
- * toma decisiones equivocadas en ese intervalo.
- * 
- */
