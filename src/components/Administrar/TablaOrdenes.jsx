@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 // Muestra todas las órdenes generadas, ordenadas por fecha descendente.
@@ -51,6 +51,17 @@ export default function TablaOrdenes() {
     setExpandida((prev) => (prev === id ? null : id));
   };
 
+  const eliminarOrden = async (id) => {
+    if (!window.confirm("¿Seguro que querés eliminar esta orden?")) return;
+    try {
+      await deleteDoc(doc(db, "ordenes", id));
+      setOrdenes((prev) => prev.filter((o) => o.id !== id));
+    } catch (err) {
+      console.error("Error al eliminar la orden:", err.message);
+      alert("No se pudo eliminar la orden. Revisá la consola.");
+    }
+  };
+
   if (loading) return <p>Cargando órdenes...</p>;
   if (error)   return <p style={{ color: "red" }}>{error}</p>;
 
@@ -69,6 +80,7 @@ export default function TablaOrdenes() {
               <th style={th}>Total</th>
               <th style={th}>Estado</th>
               <th style={th}>Items</th>
+              <th style={th}>Eliminar</th>
             </tr>
           </thead>
           {ordenes.map((orden) => (
@@ -102,6 +114,22 @@ export default function TablaOrdenes() {
                       }}
                     >
                       {expandida === orden.id ? "Ocultar" : `Ver (${orden.items?.length ?? 0})`}
+                    </button>
+                  </td>
+                  <td style={td}>
+                    <button
+                      onClick={() => eliminarOrden(orden.id)}
+                      style={{
+                        background: "none",
+                        border: "1px solid #c62828",
+                        color: "#c62828",
+                        padding: "0.2rem 0.6rem",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        fontSize: "0.85rem"
+                      }}
+                    >
+                      Eliminar
                     </button>
                   </td>
                 </tr>

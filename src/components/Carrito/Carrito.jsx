@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/cart/CartContext";
 import { useAuth } from "../../context/auth/AuthProvider";
 import CarritoItem from "./CarritoItem";
-import { crearOrden } from "../../services/ordenesService";
+import { crearOrden, validarStockDisponible } from "../../services/ordenesService";
 
 // Umbral a partir del cual se aplica el bono de descuento
 const UMBRAL_BONO   = 1_000_000;
@@ -78,7 +78,26 @@ export function Carrito() {
     };
 
     try {
-      // ── SIN MERCADO PAGO (desactivado temporalmente) ──────────────────────
+      // ── VALIDACIÓN DE STOCK ───────────────────────────────────────────────
+      // Verificamos contra Firestore que el stock real sea suficiente ANTES de
+      // crear la orden. La compra aún no está pagada en este punto — es solo
+      // una red de seguridad contra overselling (dos usuarios comprando lo mismo
+      // al mismo tiempo o stock desactualizado en pantalla).
+      const itemsParaValidar = carrito.map((item) => ({
+        id:       item.id,
+        nombre:   item.nombre,
+        cantidad: item.cantidad,
+      }));
+      const { valido, faltantes } = await validarStockDisponible(itemsParaValidar);
+
+      if (!valido) {
+        const detalle = faltantes
+          .map((f) => `• ${f.nombre}: pedís ${f.pedido}, hay ${f.disponible}`)
+          .join("\n");
+        alert(`Stock insuficiente para los siguientes productos:\n\n${detalle}\n\nPor favor actualizá tu carrito.`);
+        return;
+      }
+      // ─────────────────────────────────────────────────────────────────────
       // Para reactivar el flujo directo a Firestore: descomentar estas 4 líneas
       // y comentar el bloque de Mercado Pago de abajo
       //

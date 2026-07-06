@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/config";
 /**
  * Descripción de lo que hace la función
@@ -24,6 +24,44 @@ e sugiere los parámetros y muestra la descripción
  *  de la función a una variable de tipo incorrecto.
  */
 
+
+/**
+ * Valida que el stock disponible en Firestore sea suficiente para cada item del carrito.
+ * Se llama ANTES de crear la orden — es una red de seguridad contra overselling.
+ *
+ * IMPORTANTE: el stock ya fue descontado visualmente al agregar al carrito (comportamiento
+ * actual del catálogo). Esta validación protege el caso en que dos usuarios compren
+ * el mismo producto simultáneamente o el stock haya cambiado desde que se cargó el catálogo.
+ * La compra aún NO está pagada en este punto — solo se verifica que haya stock real.
+ *
+ * @param {Array} items - Items del carrito [{ id, nombre, cantidad }]
+ * @returns {{ valido: boolean, faltantes: Array }} valido = true si todo tiene stock,
+ *          faltantes = lista de productos con stock insuficiente
+ */
+export const validarStockDisponible = async (items) => {
+  const faltantes = [];
+
+  for (const item of items) {
+    const productoRef = doc(db, "productos", item.id);
+    const productoSnap = await getDoc(productoRef);
+
+    if (!productoSnap.exists()) {
+      faltantes.push({ nombre: item.nombre, disponible: 0, pedido: item.cantidad });
+      continue;
+    }
+
+    const stockActual = productoSnap.data().stock ?? 0;
+    if (stockActual < item.cantidad) {
+      faltantes.push({
+        nombre: item.nombre,
+        disponible: stockActual,
+        pedido: item.cantidad,
+      });
+    }
+  }
+
+  return { valido: faltantes.length === 0, faltantes };
+};
 
 /**
  * Crea una nueva orden en Firestore con estado "pendiente".
