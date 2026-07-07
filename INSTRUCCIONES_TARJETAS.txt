@@ -7,6 +7,11 @@ Esto significa que los pagos son simulados y no se mueve dinero real.
 
 Para probar el flujo de pago se deben usar las tarjetas de prueba que
 provee Mercado Pago. NO usar tarjetas reales en modo sandbox.
+
+---------------------------------------------------------------
+**Importante:** Mercado Pago a veces tarda en responder luego 
+de clickear "Finalizar compra". Por favor, esperar 
+antes de considerar que el pago no funcionó.
 ------------------------------------------------------------------------------------
 IMPORTANTE:  
 Buyer test   USAR este correo :

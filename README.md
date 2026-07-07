@@ -58,7 +58,7 @@ Las instrucciones completas para realizar las pruebas del checkout se encuentran
 
 Ver archivo: `INSTRUCCIONES_TARJETAS.txt` en la raíz del proyecto.
 
-
+>**Importante:** Mercado Pago a veces tarda en responder luego de clickear "Finalizar compra". Por favor, esperar unos segundos antes de considerar que el pago no funcionó.
 
 > El backend está en Render con plan gratuito. Si no recibe peticiones por 15 minutos se duerme. La primera solicitud al chat IA o al pago puede tardar hasta 60 segundos mientras se reactiva.
 
