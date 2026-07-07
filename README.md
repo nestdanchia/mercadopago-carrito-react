@@ -51,20 +51,7 @@ Importante: Las siguientes capturas muestran los valores de prueba proporcionado
 
 Ver archivo: `INSTRUCCIONES_TARJETAS.txt` en la raíz del proyecto.
 
-<h3>1. Completar los datos de la tarjeta de prueba</h3>
-<p align="center">
-  <img src="./imagenes/Mercado1.png" width="800">
-</p>
 
-<h3>2. Confirmar el pago</h3>
-<p align="center">
-  <img src="./imagenes/Mercado2.png" width="800">
-</p>
-
-<h3>3. Resultado de la operación</h3>
-<p align="center">
-  <img src="./imagenes/Mercado3.png" width="800">
-</p>
 
 > El backend está en Render con plan gratuito. Si no recibe peticiones por 15 minutos se duerme. La primera solicitud al chat IA o al pago puede tardar hasta 60 segundos mientras se reactiva.
 
