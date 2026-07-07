@@ -64,7 +64,17 @@ const AuthContext = createContext();
 //    Todo usuario nuevo nace como "cliente" — solo un admin puede promoverlo.
 // El SDK adjunta el Token JWT automáticamente en la petición a Firestore (Paso 3).
 const register = async (email, password) => {
+  console.log("========== AUTH ==========");
+  console.log(auth);
+  console.log("Proyecto asociado:", auth.app);
+  console.log("Usuario actual antes del registro:", auth.currentUser);
   const credencial = await createUserWithEmailAndPassword(auth, email, password);
+  console.log("========== CREDENCIAL ==========");
+  console.log(credencial);
+
+  console.log("UID:", credencial.user.uid);
+  console.log("EMAIL:", credencial.user.email);
+  console.log("EMAIL VERIFICADO:", credencial.user.emailVerified);
 
   await setDoc(
     doc(db, "usuarios", credencial.user.uid),
@@ -110,6 +120,7 @@ export function AuthProvider({ children }) {
       console.log("Rol:", rol);
       console.log("Usuario:", currentUser);
 
+
       setUser(currentUser); // actualiza la autenticación en el estado global
 
       if (currentUser) {
@@ -118,7 +129,10 @@ export function AuthProvider({ children }) {
         // Firestore verifica el token y aplica las reglas de seguridad (Pasos 4 y 5).
         console.log("usuario conectado con UID:", currentUser.uid);
         console.log("Usuario autenticado:", currentUser);
+        const token = await currentUser.getIdToken();
 
+        console.log("JWT:", token);
+        console.log("Usuario autenticado, obteniendo rol desde Firestore...");
         const docRef = doc(db, "usuarios", currentUser.uid);
         const docSnap = await getDoc(docRef);
 
