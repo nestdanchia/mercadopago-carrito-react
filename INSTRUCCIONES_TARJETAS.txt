@@ -7,7 +7,8 @@ Esto significa que los pagos son simulados y no se mueve dinero real.
 
 Para probar el flujo de pago se deben usar las tarjetas de prueba que
 provee Mercado Pago. NO usar tarjetas reales en modo sandbox.
-
+------------------------------------------------------------------------------------
+IMPORTANTE:  Buyer test  usar su correo  test_user_3168841862494326733@testuser.com
 
 ---------------------------------------------------------
 TARJETAS DE PRUEBA DISPONIBLES
@@ -25,6 +26,8 @@ Visa Débito          4002 7686 9439 5619  123    11/30
 ---------------------------------------------------------
 ESTADOS DE PAGO SEGÚN EL NOMBRE DEL TITULAR
 ---------------------------------------------------------
+IMPORTANTE:  Buyer test  usar su correo  test_user_3168841862494326733@testuser.com
+
 
 El resultado del pago se controla escribiendo uno de estos
 valores en el campo "Nombre del titular" de la tarjeta:
@@ -43,6 +46,7 @@ FORM            Rechazado       Error de formulario                 -
 Ejemplo: para simular un pago aprobado usar cualquier tarjeta
 de la lista con nombre del titular "APRO" y DNI "12345678".
 
+IMPORTANTE:  Buyer test  usar su correo  test_user_3168841862494326733@testuser.com
 
 ---------------------------------------------------------
 FLUJO COMPLETO DE PRUEBA
