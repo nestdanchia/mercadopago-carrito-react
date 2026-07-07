@@ -11,7 +11,7 @@ import styles from "./GestionProductos.module.css";
 // Vista de administración de productos.
 // Lista todos los productos con acciones Agregar, Editar y Eliminar.
 // Reutiliza FormularioProducto para alta y edición via prop 'titulo' y estado 'modo'.
-export default function GestionProductos() {
+function GestionProductos() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

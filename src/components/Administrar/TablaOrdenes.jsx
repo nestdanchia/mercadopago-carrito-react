@@ -5,7 +5,7 @@ import styles from "./TablaOrdenes.module.css";
 
 // Muestra todas las órdenes generadas, ordenadas por fecha descendente.
 // Solo accesible desde /privada (protegida por RutaPrivadaElemental).
-export default function TablaOrdenes() {
+function TablaOrdenes() {
   const [ordenes, setOrdenes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

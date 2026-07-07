@@ -6,7 +6,7 @@ import styles from "./PromoverAdmin.module.css";
 // Permite al administrador promover un usuario cliente a administrador.
 // Busca el documento en la colección "usuarios" por email y cambia el rol a "admin".
 // Solo accesible desde /privada, que ya está protegida por RutaPrivadaElemental.
-export default function PromoverAdmin() {
+function PromoverAdmin() {
   const [emailBuscado, setEmailBuscado] = useState("");
   const [mensaje, setMensaje] = useState(null);
   const [error, setError] = useState(null);
@@ -83,3 +83,5 @@ export default function PromoverAdmin() {
     </div>
   );
 }
+
+export default PromoverAdmin;

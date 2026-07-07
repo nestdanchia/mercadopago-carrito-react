@@ -3,7 +3,7 @@ import { useAuth } from "../../context/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 
-export default function Registro() {
+function Registro() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -98,3 +98,5 @@ export default function Registro() {
     </div>
   );
 }
+
+export default Registro;

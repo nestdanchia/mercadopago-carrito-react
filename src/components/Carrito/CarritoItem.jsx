@@ -10,7 +10,7 @@ mostrar subtotal individual
 estilos visuales
 */
 
-export default function CarritoItem({ item}) {
+function CarritoItem({ item}) {
     return (
         <div className={`${styles.item} ${item.cantidad > 3 ? styles.highQuantity : ""}`}>
             <h3>{item.nombre}</h3>
@@ -25,3 +25,5 @@ export default function CarritoItem({ item}) {
         </div>
     );
 }
+
+export default CarritoItem;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./formulario.css";
+import styles from "./FormularioProducto.module.css";
 
 // Componente hijo presentacional — solo renderiza el formulario.
 // No tiene logica ni estado propio. Recibe datos y callbacks del padre.
@@ -33,15 +33,15 @@ function FormularioProducto({ datosForm, manejarCambio, manejarEnvio, titulo }) 
   };
 
   return (
-    <div className="card">
-      <h3 className="titulo">{titulo || "Producto"}</h3>
+    <div className={styles.card}>
+      <h3 className={styles.titulo}>{titulo || "Producto"}</h3>
 
       <form onSubmit={manejarEnvio}>
 
-        <div className="campo">
-          <label className="label">Nombre del Producto</label>
+        <div className={styles.campo}>
+          <label className={styles.label}>Nombre del Producto</label>
           <input
-            className="input"
+            className={styles.input}
             type="text"
             name="nombre"
             placeholder="Ej: Teclado Mecanico"
@@ -57,10 +57,10 @@ target.name y target.value.*/
           />
         </div>
 
-        <div className="campo">
-          <label className="label">Stock</label>
+        <div className={styles.campo}>
+          <label className={styles.label}>Stock</label>
           <input
-            className="input"
+            className={styles.input}
             type="number"
             name="stock"
             placeholder="Ej: 10"
@@ -69,10 +69,10 @@ target.name y target.value.*/
           />
         </div>
 
-        <div className="campo">
-          <label className="label">Precio ($)</label>
+        <div className={styles.campo}>
+          <label className={styles.label}>Precio ($)</label>
           <input
-            className="input"
+            className={styles.input}
             type="number"
             name="precio"
             placeholder="Ej: 95"
@@ -81,11 +81,11 @@ target.name y target.value.*/
           />
         </div>
 
-        <div className="campo">
-          <label className="label">Categoria</label>
+        <div className={styles.campo}>
+          <label className={styles.label}>Categoria</label>
           {/* El select usa el mismo manejarCambio que los inputs via name="categoria" */}
           <select
-            className="select"
+            className={styles.select}
             name="categoria"
             value={datosForm.categoria}
             onChange={manejarCambio}
@@ -109,26 +109,26 @@ target.name y target.value.*/
           </select>
         </div>
 
-        <div className="campo">
-          <label className="label">Imagen</label>
+        <div className={styles.campo}>
+          <label className={styles.label}>Imagen</label>
 
           {/* Selector de archivo — solo genera preview, no sube nada */}
           <input
             type="file"
             accept="image/*"
             onChange={manejarSeleccionArchivo}
-            style={{ marginBottom: "0.5rem", display: "block" }}
+            className={styles.fileInput}
           />
 
           {/* Preview de la imagen seleccionada */}
           {previewUrl && (
-            <div style={{ marginBottom: "0.5rem" }}>
+            <div className={styles.previewContainer}>
               <img
                 src={previewUrl}
                 alt="Vista previa"
-                style={{ width: "120px", height: "120px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ccc" }}
+                className={styles.previewImage}
               />
-              <p style={{ fontSize: "0.75rem", color: "#e65100", marginTop: "0.3rem" }}>
+              <p className={styles.previewWarning}>
                 ⚠ Vista previa local. Para que la imagen funcione en la tienda,
                 copiá el archivo a la carpeta <strong>/public</strong> y escribí la ruta abajo.
               </p>
@@ -137,7 +137,7 @@ target.name y target.value.*/
 
           {/* Campo de texto para la ruta final que se guarda en Firestore */}
           <input
-            className="input"
+            className={styles.input}
             type="text"
             name="imagen"
             placeholder="Ej: /11.jpeg"
@@ -146,7 +146,7 @@ target.name y target.value.*/
           />
         </div>
 
-        <button type="submit" className="boton">
+        <button type="submit" className={styles.boton}>
           Guardar Producto
         </button>
 

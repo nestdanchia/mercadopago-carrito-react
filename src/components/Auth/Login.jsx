@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth/AuthProvider';
 import styles from './Login.module.css';
 
-export default function Login() {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // modoReset alterna entre el formulario de login y el de recuperación
@@ -152,3 +152,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;
