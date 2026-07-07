@@ -17,3 +17,18 @@
 .item {
   min-width: 0;
 }
+
+/* Responsive — en tablet 2 columnas, en mobile 1 columna */
+@media (max-width: 768px) {
+  .frame {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .frame {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+}

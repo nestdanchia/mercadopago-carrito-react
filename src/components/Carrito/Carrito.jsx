@@ -224,7 +224,7 @@ export function Carrito() {
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
         <button onClick={continuarComprando} style={{ backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer" }}>
           Continuar comprando
         </button>

@@ -171,7 +171,8 @@ export default function GestionProductos() {
       )}
 
       {/* Listado de productos */}
-      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "1rem" }}>
+      <div style={{ overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "1rem", minWidth: "560px" }}>
         <thead>
           <tr style={{ backgroundColor: "#f0f0f0" }}>
             <th style={thStyle}>Nombre</th>
@@ -208,6 +209,7 @@ export default function GestionProductos() {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

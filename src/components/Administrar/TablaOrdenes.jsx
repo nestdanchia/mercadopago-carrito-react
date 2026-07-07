@@ -72,8 +72,8 @@ export default function TablaOrdenes() {
       {ordenes.length === 0 ? (
         <p>No hay órdenes registradas todavía.</p>
       ) : (
-        
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
           <thead>
             <tr style={{ backgroundColor: "#f0f0f0" }}>
               <th style={th}>Fecha</th>
@@ -165,6 +165,7 @@ export default function TablaOrdenes() {
               </tbody>
             ))}
         </table>
+        </div>
       )}
     </div>
   );

@@ -1,21 +1,21 @@
+import { useState } from "react";
 import styles from "./Navbar.module.css";
 import { NavLink } from "react-router-dom";
-// NavLink Sirve para navegar entre rutas y además saber cuándo una ruta está activa.
-// cambian la URL sin recargar la aplicación. SPA
 import { useAuth } from "../../context/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
-/* llamá a getClass manualmente. NavLink la ejecuta automáticamente y le pasa { isActive }, 
-y según ese valor devolvés una clase o dos clases.
-NavLink → navegación declarativa en el JSX.
-navigate() → navegación imperativa desde una función o evento. */
+
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout, rol } = useAuth();
+  const [menuAbierto, setMenuAbierto] = useState(false);
+
   const handleLogout = async () => {
-  await logout();
-  navigate("/login");
-};
-// isActive indica si la URL actual del navegador coincide con la ruta especificada en to
+    await logout();
+    navigate("/login");
+  };
+
+  const cerrarMenu = () => setMenuAbierto(false);
+
   const getClass = ({ isActive }) =>
     isActive
       ? `${styles.link} ${styles.active}`
@@ -23,53 +23,48 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <NavLink to="/" className={getClass} end>
-        Inicio
-      </NavLink>
+      {/* Botón hamburguesa — solo visible en mobile */}
+      <button
+        className={styles.hamburger}
+        onClick={() => setMenuAbierto((prev) => !prev)}
+        aria-label="Abrir menú"
+      >
+        ☰
+      </button>
 
-      <NavLink to="/chat" className={getClass}>
-        Chat IA
-      </NavLink>
+      {/* Links — en desktop siempre visibles, en mobile se muestran/ocultan */}
+      <div className={`${styles.links} ${menuAbierto ? styles.linksAbierto : ""}`}>
+        <NavLink to="/" className={getClass} end onClick={cerrarMenu}>Inicio</NavLink>
+        <NavLink to="/chat" className={getClass} onClick={cerrarMenu}>Chat IA</NavLink>
+        <NavLink to="/carrito" className={getClass} onClick={cerrarMenu}>Ver carrito</NavLink>
 
-      <NavLink to="/carrito" className={getClass}>
-        Ver carrito
-      </NavLink>
-      {!user && (
-        <NavLink to="/registro" className={getClass} end>
-          Registrarse
-        </NavLink>
-      )}
-      {/* PUERTA VISUAL — control en el Navbar:
-          Muestra el link "Administración" solo si el rol es "admin".
-          Misma lógica que RutaPrivadaElemental pero aplicada a visibilidad,
-          no a acceso. Un cliente no ve la opción, un admin sí. */}
-      {rol === "admin" && (
-        <NavLink to="/admin" className={getClass}>
-          Administración
-        </NavLink>
-      )}
+        {!user && (
+          <NavLink to="/registro" className={getClass} end onClick={cerrarMenu}>Registrarse</NavLink>
+        )}
 
-      {user ? (
-        <>
-          <NavLink to="/privada" className={getClass}>
-            Ordenes
-          </NavLink>
+        {/* PUERTA VISUAL — control en el Navbar:
+            Muestra el link "Administración" solo si el rol es "admin".
+            Misma lógica que RutaPrivadaElemental pero aplicada a visibilidad,
+            no a acceso. Un cliente no ve la opción, un admin sí. */}
+        {rol === "admin" && (
+          <NavLink to="/admin" className={getClass} onClick={cerrarMenu}>Administración</NavLink>
+        )}
 
-          <button
-            onClick={handleLogout}
-            className={styles.logoutButton}
-          >
-            Salir
-          </button>
-        </>
-      ) : (
-        <NavLink to="/login" className={getClass}>
-          Login
-        </NavLink>
-      )}
+        {user ? (
+          <>
+            <NavLink to="/privada" className={getClass} onClick={cerrarMenu}>Ordenes</NavLink>
+            <button onClick={() => { handleLogout(); cerrarMenu(); }} className={styles.logoutButton}>
+              Salir
+            </button>
+          </>
+        ) : (
+          <NavLink to="/login" className={getClass} onClick={cerrarMenu}>Login</NavLink>
+        )}
+      </div>
     </nav>
   );
 };
+
 export default Navbar;
 // NavLink es igual a Link pero agrega la clase "active" automaticamente
 // cuando la ruta actual coincide con el "to". Usamos la prop className
