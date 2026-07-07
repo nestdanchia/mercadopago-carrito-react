@@ -8,9 +8,16 @@ Esto significa que los pagos son simulados y no se mueve dinero real.
 Para probar el flujo de pago se deben usar las tarjetas de prueba que
 provee Mercado Pago. NO usar tarjetas reales en modo sandbox.
 ------------------------------------------------------------------------------------
-IMPORTANTE:  Buyer test  usar su correo  test_user_3168841862494326733@testuser.com
-En public ver Mercado1.png --Mercado2.png ----Mercado3.png
-con la secuencia de datos completados correctamente
+IMPORTANTE:  
+Buyer test   USAR este correo :
+ test_user_3168841862494326733@testuser.com
+ ---------------------------------------------------------------------------
+IMPORTANTE: 
+Las imágenes Mercado1.png, Mercado2.png y Mercado3.png,
+ubicadas en la carpeta "imagenes" del proyecto,
+muestran la secuencia correcta para completar el formulario
+de Mercado Pago en modo Sandbox.
+
 ---------------------------------------------------------
 TARJETAS DE PRUEBA DISPONIBLES
 ---------------------------------------------------------

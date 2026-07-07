@@ -49,6 +49,13 @@ Importante: Las siguientes capturas muestran los valores de prueba proporcionado
   <img src="./imagenes/Mercado3.png" width="800">
 </p>
 
+
+## Pruebas con Mercado Pago
+
+Las instrucciones completas para realizar las pruebas del checkout se encuentran en:
+
+📄 **[INSTRUCCIONES_TARJETAS.txt](./INSTRUCCIONES_TARJETAS.txt)**
+
 Ver archivo: `INSTRUCCIONES_TARJETAS.txt` en la raíz del proyecto.
 
 
