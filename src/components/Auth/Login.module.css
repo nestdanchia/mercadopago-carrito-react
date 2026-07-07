@@ -102,3 +102,29 @@
 /* Mensajes de feedback */
 .mensajeOk    { color: #2e7d32; margin-top: 0.5rem; }
 .mensajeError { color: #c62828; margin-top: 0.5rem; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .contenedor {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+  
+  .contenedor h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contenedor {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+  
+  .btnPrincipal {
+    width: 100%;
+  }
+}

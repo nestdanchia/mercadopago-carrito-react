@@ -4,6 +4,7 @@ import { CartContext } from "../../context/cart/CartContext";
 import { useAuth } from "../../context/auth/AuthProvider";
 import CarritoItem from "./CarritoItem";
 import { crearOrden, validarStockDisponible } from "../../services/ordenesService";
+import styles from "./Carrito.module.css";
 
 // Umbral a partir del cual se aplica el bono de descuento
 const UMBRAL_BONO   = 1_000_000;
@@ -154,14 +155,16 @@ export function Carrito() {
   };
 
   return (
-    <div>
-      <h2>Mi carrito</h2>
-      <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "0.3rem" }}>
-        ℹ️ Para probar el pago con tarjetas de prueba consultá el archivo <strong>INSTRUCCIONES_TARJETAS.txt</strong> en la raíz del proyecto.
-      </p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2>Mi carrito</h2>
+        <p className={styles.infoText}>
+          ℹ️ Para probar el pago con tarjetas de prueba consultá el archivo <strong>INSTRUCCIONES_TARJETAS.txt</strong> en la raíz del proyecto.
+        </p>
+      </div>
 
       {carrito.length === 0 ? (
-        <p>El carrito está vacío.</p>
+        <p className={styles.emptyMessage}>El carrito está vacío.</p>
       ) : (
         carrito.map((item) => (
           <CarritoItem key={item.id} item={item} />
@@ -169,66 +172,59 @@ export function Carrito() {
       )}
 
       {/* Resumen de precios */}
-      <div style={{ marginTop: "1rem", borderTop: "1px solid #ddd", paddingTop: "1rem" }}>
-        <p style={{ margin: "0.3rem 0" }}>Subtotal: ${totalBruto.toLocaleString("es-AR")}</p>
+      <div className={styles.priceSummary}>
+        <p className={styles.priceRow}>Subtotal: ${totalBruto.toLocaleString("es-AR")}</p>
 
         {bonoAplicado && (
-          <p style={{ margin: "0.3rem 0", color: "#2e7d32" }}>
+          <p className={styles.discountRow}>
             Descuento 30%: -${descuento.toLocaleString("es-AR")}
           </p>
         )}
 
-        <h3 style={{ margin: "0.5rem 0" }}>
+        <h3 className={styles.totalRow}>
           Total a pagar: ${totalFinal.toLocaleString("es-AR")}
         </h3>
       </div>
 
       {/* Sección de bono — aparece solo si el total supera el umbral */}
       {bonoDisponible && (
-        <div style={{
-          marginTop: "1.2rem",
-          padding: "1rem",
-          backgroundColor: "#fff8e1",
-          border: "1px solid #ffe082",
-          borderRadius: "8px",
-          maxWidth: "420px"
-        }}>
-          <p style={{ margin: "0 0 0.5rem", fontWeight: "bold", color: "#f57f17" }}>
+        <div className={styles.bonoSection}>
+          <p className={styles.bonoTitle}>
             🎉 ¡Comprá superó $1.000.000! Tenés un bono del 30%
           </p>
-          <p style={{ margin: "0 0 0.8rem", fontSize: "0.9rem" }}>
-            Tu código de bono: <strong style={{ letterSpacing: "0.1rem" }}>{codigoBono}</strong>
+          <p className={styles.bonoCode}>
+            Tu código de bono: <strong>{codigoBono}</strong>
           </p>
 
           {!bonoAplicado ? (
-            <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <div className={styles.bonoInputContainer}>
               <input
                 type="text"
                 placeholder="Ingresá el código"
                 value={inputBono}
                 onChange={(e) => setInputBono(e.target.value.toUpperCase())}
-                style={{ padding: "0.4rem 0.6rem", borderRadius: "4px", border: "1px solid #ccc", flexGrow: 1 }}
+                className={styles.bonoInput}
               />
               <button
                 onClick={aplicarBono}
-                style={{ backgroundColor: "#f57f17", color: "#fff", border: "none", padding: "0.4rem 0.8rem", borderRadius: "4px", cursor: "pointer" }}
+                className={styles.bonoButton}
               >
                 Aplicar
               </button>
             </div>
           ) : (
-            <p style={{ color: "#2e7d32", margin: 0 }}>✓ Bono aplicado correctamente</p>
+            <p className={styles.bonoApplied}>✓ Bono aplicado correctamente</p>
           )}
 
-          {errorBono && <p style={{ color: "#c62828", margin: "0.5rem 0 0", fontSize: "0.85rem" }}>{errorBono}</p>}
+          {errorBono && <p className={styles.bonoError}>{errorBono}</p>}
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", flexWrap: "wrap" }}>
-        <button onClick={continuarComprando} style={{ backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer" }}>
+      <div className={styles.actionButtons}>
+        <button onClick={continuarComprando} className={`${styles.actionButton} ${styles.continueButton}`}>
           Continuar comprando
         </button>
-        <button onClick={finalizarCompra} style={{ backgroundColor: "#4caf50", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer" }}>
+        <button onClick={finalizarCompra} className={`${styles.actionButton} ${styles.checkoutButton}`}>
           Finalizar compra
         </button>
       </div>

@@ -1,0 +1,171 @@
+/* =========================================================
+   GESTION PRODUCTOS
+   ========================================================= */
+
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.header h2 {
+  margin: 0;
+  color: var(--gray-dark);
+}
+
+.addButton {
+  background-color: #42a5f5;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: #1976d2;
+}
+
+.formularioContainer {
+  margin-bottom: 1.5rem;
+}
+
+.cancelButton {
+  margin-top: 0.5rem;
+  background-color: #757575;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: #616161;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  min-width: 560px;
+}
+
+.thead {
+  background-color: #f0f0f0;
+}
+
+.th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.td {
+  padding: 0.5rem 1rem;
+}
+
+.editButton {
+  margin-right: 0.5rem;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: #1565c0;
+}
+
+.deleteButton {
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #c62828;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+
+  .table {
+    min-width: 500px;
+  }
+
+  .th,
+  .td {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .editButton,
+  .deleteButton {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h2 {
+    font-size: 1.2rem;
+  }
+
+  .table {
+    min-width: 400px;
+    font-size: 0.85rem;
+  }
+
+  .th,
+  .td {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .editButton,
+  .deleteButton {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    margin-right: 0.3rem;
+  }
+
+  .editButton {
+    margin-right: 0.3rem;
+  }
+}

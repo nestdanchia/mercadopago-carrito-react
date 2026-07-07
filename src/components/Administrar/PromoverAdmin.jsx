@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import styles from "./PromoverAdmin.module.css";
 
 // Permite al administrador promover un usuario cliente a administrador.
 // Busca el documento en la colección "usuarios" por email y cambia el rol a "admin".
@@ -51,32 +52,34 @@ export default function PromoverAdmin() {
   };
 
   return (
-    <div style={{ marginTop: "2rem", padding: "1.5rem", border: "1px solid #ddd", borderRadius: "8px", maxWidth: "480px" }}>
-      <h3 style={{ marginTop: 0 }}>Promover usuario a administrador</h3>
-      <p style={{ color: "#555", fontSize: "0.9rem" }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h3>Promover usuario a administrador</h3>
+      </div>
+      <p className={styles.description}>
         Ingresá el email de un usuario registrado para darle rol de administrador.
       </p>
 
-      <form onSubmit={handlePromover}>
+      <form onSubmit={handlePromover} className={styles.form}>
         <input
           type="email"
           placeholder="Email del usuario"
           value={emailBuscado}
           onChange={(e) => setEmailBuscado(e.target.value)}
           required
-          style={{ width: "100%", padding: "0.5rem", marginBottom: "0.8rem", borderRadius: "4px", border: "1px solid #ccc", boxSizing: "border-box" }}
+          className={styles.input}
         />
         <button
           type="submit"
           disabled={cargando}
-          style={{ backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px", cursor: "pointer" }}
+          className={styles.submitButton}
         >
           {cargando ? "Procesando..." : "Promover a admin"}
         </button>
       </form>
 
-      {mensaje && <p style={{ color: "#2e7d32", marginTop: "1rem" }}>{mensaje}</p>}
-      {error   && <p style={{ color: "#c62828", marginTop: "1rem" }}>{error}</p>}
+      {mensaje && <p className={styles.successMessage}>{mensaje}</p>}
+      {error   && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );
 }

@@ -1,0 +1,173 @@
+/* =========================================================
+   PRODUCTO DETALLE
+   ========================================================= */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--green-forest);
+}
+
+.header h2 {
+  color: var(--green-forest);
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.productId {
+  color: var(--gray-mid);
+  font-size: 0.9rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.imageContainer {
+  background: white;
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.details {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.detailRow {
+  margin-bottom: 1.5rem;
+}
+
+.detailLabel {
+  font-weight: bold;
+  color: var(--gray-dark);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.detailValue {
+  font-size: 1.2rem;
+  color: var(--gray-dark);
+}
+
+.price {
+  font-size: 2rem;
+  color: var(--green-forest);
+  font-weight: bold;
+}
+
+.stock {
+  color: var(--gray-mid);
+}
+
+.category {
+  display: inline-block;
+  background: var(--green-forest);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--gray-dark);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+
+.backLink:hover {
+  background: var(--gray-mid);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .details {
+    padding: 1.5rem;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .header h2 {
+    font-size: 1.3rem;
+  }
+
+  .imageContainer {
+    padding: 0.5rem;
+  }
+
+  .details {
+    padding: 1rem;
+  }
+
+  .detailRow {
+    margin-bottom: 1rem;
+  }
+
+  .detailValue {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1.3rem;
+  }
+
+  .backLink {
+    width: 100%;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+}

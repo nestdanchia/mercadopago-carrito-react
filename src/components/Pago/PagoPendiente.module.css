@@ -1,0 +1,69 @@
+/* =========================================================
+   PAGO PENDIENTE
+   ========================================================= */
+
+.container {
+  text-align: center;
+  padding: 3rem;
+}
+
+.title {
+  color: #f57f17;
+  margin-bottom: 1rem;
+}
+
+.message {
+  color: var(--gray-dark);
+  margin-bottom: 0.5rem;
+}
+
+.infoText {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.actionButton {
+  margin-top: 1.5rem;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #1565c0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .actionButton {
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+}

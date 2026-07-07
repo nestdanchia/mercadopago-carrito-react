@@ -1,9 +1,9 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-//import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase/config";
+import styles from "./ProductoDetalle.module.css";
 
 function ProductoDetalle() {
 
@@ -49,21 +49,49 @@ function ProductoDetalle() {
   }
 
 
-  //const navigate = useNavigate();
   return (
-    <div>
-      <h2>Detalle del Producto</h2>
-      <p>Mostrando información para el producto con ID: {id}</p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2>Detalle del Producto</h2>
+        <p className={styles.productId}>ID: {id}</p>
+      </div>
 
-      <img src={productoDetalle.imagen} alt="Detalle del producto" />
-      <p>Precio: ${productoDetalle.precio}</p>
+      <div className={styles.content}>
+        <div className={styles.imageContainer}>
+          <img
+            src={productoDetalle.imagen}
+            alt={productoDetalle.nombre}
+            className={styles.image}
+          />
+        </div>
 
-      <p>Stock: {productoDetalle.stock}</p>
+        <div className={styles.details}>
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Nombre</span>
+            <p className={styles.detailValue}>{productoDetalle.nombre}</p>
+          </div>
 
-      <p>Categoría: {productoDetalle.categoria}</p>
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Precio</span>
+            <p className={styles.price}>${productoDetalle.precio}</p>
+          </div>
 
-      <Link to="/" style={{ textDecoration: "underline", color: "blue" }}>
-        Volver al Catalogo
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Stock</span>
+            <p className={`${styles.detailValue} ${styles.stock}`}>
+              {productoDetalle.stock} unidades
+            </p>
+          </div>
+
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Categoría</span>
+            <span className={styles.category}>{productoDetalle.categoria}</span>
+          </div>
+        </div>
+      </div>
+
+      <Link to="/" className={styles.backLink}>
+        Volver al Catálogo
       </Link>
     </div>
   );

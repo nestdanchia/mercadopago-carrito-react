@@ -188,3 +188,60 @@
   font-family: monospace;
   font-weight: bold;
 }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 15px;
+    margin: 15px 0;
+  }
+  
+  .chatBox {
+    height: 200px;
+  }
+  
+  .bubble {
+    max-width: 90%;
+  }
+  
+  .formContactFields {
+    flex-direction: column;
+  }
+  
+  .formContactFields input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .wrapper {
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .chatBox {
+    height: 180px;
+    padding: 8px;
+  }
+  
+  .form {
+    flex-direction: column;
+  }
+  
+  .sendButton {
+    width: 100%;
+  }
+  
+  .contactButton {
+    width: 100%;
+  }
+}

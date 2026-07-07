@@ -6,6 +6,7 @@ import {
   actualizarProducto,
   eliminarProducto,
 } from "../../services/cargaProductos";
+import styles from "./GestionProductos.module.css";
 
 // Vista de administración de productos.
 // Lista todos los productos con acciones Agregar, Editar y Eliminar.
@@ -138,14 +139,14 @@ export default function GestionProductos() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className={styles.container}>
       {/* Encabezado con título y botón Agregar alineado a la derecha */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-        <h2 style={{ margin: 0 }}>Gestión de Productos</h2>
+      <div className={styles.header}>
+        <h2>Gestión de Productos</h2>
         {!modo && (
           <button
             onClick={iniciarAlta}
-            style={{ backgroundColor: "#42a5f5", color: "#fff", border: "none", padding: "0.5rem 1.2rem", borderRadius: "4px", cursor: "pointer", fontWeight: "bold" }}
+            className={styles.addButton}
           >
             + Agregar Producto
           </button>
@@ -154,7 +155,7 @@ export default function GestionProductos() {
 
       {/* Formulario compartido — aparece en modo alta o edición */}
       {modo && (
-        <div ref={formularioRef}>
+        <div className={styles.formularioContainer} ref={formularioRef}>
           <FormularioProducto
             datosForm={datosForm}
             manejarCambio={manejarCambio}
@@ -163,7 +164,7 @@ export default function GestionProductos() {
           />
           <button
             onClick={cancelar}
-            style={{ marginTop: "0.5rem", backgroundColor: "#757575", color: "#fff", border: "none", padding: "0.4rem 1rem", borderRadius: "4px", cursor: "pointer" }}
+            className={styles.cancelButton}
           >
             Cancelar
           </button>
@@ -171,36 +172,36 @@ export default function GestionProductos() {
       )}
 
       {/* Listado de productos */}
-      <div style={{ overflowX: "auto" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "1rem", minWidth: "560px" }}>
-        <thead>
-          <tr style={{ backgroundColor: "#f0f0f0" }}>
-            <th style={thStyle}>Nombre</th>
-            <th style={thStyle}>Categoria</th>
-            <th style={thStyle}>Precio</th>
-            <th style={thStyle}>Stock</th>
-            <th style={thStyle}>Imagen</th>
-            <th style={thStyle}>Acciones</th>
+      <div className={styles.tableContainer}>
+      <table className={styles.table}>
+        <thead className={styles.thead}>
+          <tr>
+            <th className={styles.th}>Nombre</th>
+            <th className={styles.th}>Categoria</th>
+            <th className={styles.th}>Precio</th>
+            <th className={styles.th}>Stock</th>
+            <th className={styles.th}>Imagen</th>
+            <th className={styles.th}>Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.tbody}>
           {productos.map((producto) => (
-            <tr key={producto.id} style={{ borderBottom: "1px solid #ddd" }}>
-              <td style={tdStyle}>{producto.nombre}</td>
-              <td style={tdStyle}>{producto.categoria}</td>
-              <td style={tdStyle}>${producto.precio}</td>
-              <td style={tdStyle}>{producto.stock}</td>
-              <td style={tdStyle}>{producto.imagen}</td>
-              <td style={tdStyle}>
+            <tr key={producto.id}>
+              <td className={styles.td}>{producto.nombre}</td>
+              <td className={styles.td}>{producto.categoria}</td>
+              <td className={styles.td}>${producto.precio}</td>
+              <td className={styles.td}>{producto.stock}</td>
+              <td className={styles.td}>{producto.imagen}</td>
+              <td className={styles.td}>
                 <button
                   onClick={() => iniciarEdicion(producto)}
-                  style={{ marginRight: "0.5rem", backgroundColor: "#1976d2", color: "#fff", border: "none", padding: "0.3rem 0.8rem", borderRadius: "4px", cursor: "pointer" }}
+                  className={styles.editButton}
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => manejarEliminar(producto.id, producto.nombre)}
-                  style={{ backgroundColor: "#d32f2f", color: "#fff", border: "none", padding: "0.3rem 0.8rem", borderRadius: "4px", cursor: "pointer" }}
+                  className={styles.deleteButton}
                 >
                   Eliminar
                 </button>
@@ -214,23 +215,4 @@ export default function GestionProductos() {
   );
 }
 
-const thStyle = {
-  padding: "0.6rem 1rem",
-  textAlign: "left",
-  fontWeight: "bold",
-  borderBottom: "2px solid #ccc",
-};
-
-const tdStyle = {
-  padding: "0.5rem 1rem",
-};
-/*
-  En React, los inputs controlados reciben su valor desde el estado.
-  Los eventos onChange de input, select y textarea suelen exponer:
-  
-  evento.target.name
-  evento.target.value
-
-  Esto permite identificar qué campo cambió y actualizar
-  el estado del formulario en el componente padre.
-*/
+export default GestionProductos;

@@ -1,0 +1,181 @@
+/* =========================================================
+   TABLA ORDENES
+   ========================================================= */
+
+.container {
+  margin-top: 2rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.header h3 {
+  margin: 0;
+  color: var(--gray-dark);
+}
+
+.emptyMessage {
+  color: var(--gray-mid);
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.thead {
+  background-color: #f0f0f0;
+}
+
+.th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.td {
+  padding: 0.5rem 1rem;
+}
+
+.estadoBadge {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.actionButton {
+  background: none;
+  border: 1px solid #1976d2;
+  color: #1976d2;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #1976d2;
+  color: white;
+}
+
+.deleteButton {
+  border-color: #c62828;
+  color: #c62828;
+}
+
+.deleteButton:hover {
+  background-color: #c62828;
+  color: white;
+}
+
+/* Tabla de items expandida */
+.expandedRow {
+  background-color: #fafafa;
+}
+
+.expandedCell {
+  padding: 0.8rem 1.5rem;
+}
+
+.subTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.subThead {
+  background-color: #eeeeee;
+}
+
+.subTh {
+  padding: 0.4rem 0.8rem;
+  text-align: left;
+  font-weight: bold;
+  color: #555;
+}
+
+.subTbody tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.subTd {
+  padding: 0.4rem 0.8rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 1.5rem;
+  }
+
+  .header h3 {
+    font-size: 1.2rem;
+  }
+
+  .table {
+    min-width: 500px;
+  }
+
+  .th,
+  .td {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .actionButton {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin-top: 1rem;
+  }
+
+  .header h3 {
+    font-size: 1rem;
+  }
+
+  .table {
+    min-width: 400px;
+    font-size: 0.85rem;
+  }
+
+  .th,
+  .td {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .estadoBadge {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .actionButton {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .subTh,
+  .subTd {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}

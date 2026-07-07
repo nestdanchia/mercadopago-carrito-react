@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { actualizarEstadoOrden } from "../../services/ordenesService";
+import styles from "./PagoPendiente.module.css";
 
 export function PagoPendiente() {
   const [searchParams] = useSearchParams();
@@ -25,24 +26,15 @@ export function PagoPendiente() {
   }, [searchParams]);
 
   return (
-    <div style={{ textAlign: "center", padding: "3rem" }}>
-      <h2 style={{ color: "#f57f17" }}>⏳ Tu pago está pendiente de acreditación</h2>
-      <p>Una vez acreditado, tu orden será confirmada automáticamente.</p>
-      <p style={{ fontSize: "0.9rem", color: "#666" }}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>⏳ Tu pago está pendiente de acreditación</h2>
+      <p className={styles.message}>Una vez acreditado, tu orden será confirmada automáticamente.</p>
+      <p className={styles.infoText}>
         Podés revisar el estado de tu orden en tu historial de compras.
       </p>
       <button
         onClick={() => navigate("/")}
-        style={{
-          marginTop: "1.5rem",
-          backgroundColor: "#1976d2",
-          color: "#fff",
-          border: "none",
-          padding: "0.6rem 1.4rem",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontSize: "1rem",
-        }}
+        className={styles.actionButton}
       >
         Ir a la tienda
       </button>

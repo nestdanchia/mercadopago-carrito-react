@@ -1,0 +1,79 @@
+/* =========================================================
+   CARRITO ITEM
+   ========================================================= */
+
+.item {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.2s;
+}
+
+.item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--gray-dark);
+  font-size: 1.1rem;
+}
+
+.item p {
+  margin: 0.3rem 0;
+  color: var(--gray-mid);
+  font-size: 0.95rem;
+}
+
+.subtotal {
+  font-weight: bold;
+  color: var(--green-forest);
+  font-size: 1rem;
+}
+
+/* Color verde para compras mayores a 3 unidades */
+.highQuantity {
+  color: #2e7d32;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .item {
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .item h3 {
+    font-size: 1rem;
+  }
+
+  .item p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+    border-radius: 8px;
+  }
+
+  .item h3 {
+    font-size: 0.95rem;
+  }
+
+  .item p {
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+  }
+
+  .subtotal {
+    font-size: 0.95rem;
+  }
+}

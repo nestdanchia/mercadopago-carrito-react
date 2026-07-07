@@ -1,3 +1,5 @@
+import styles from "./CarritoItem.module.css";
+
 /** 
  * CarritoItem
 
@@ -10,29 +12,16 @@ estilos visuales
 
 export default function CarritoItem({ item}) {
     return (
-       
-        <div
-          //  key={item.id} ya no sirve para nada se define en Carrito
-            style={{
-                border: "1px solid #ccc",
-                borderRadius: "10px",
-                padding: "1rem",
-                marginBottom: "1rem",
-                backgroundColor: "#f9f9f9",
-                color: item.cantidad > 3 ? "green" : "black"
-            }}
-        >
+        <div className={`${styles.item} ${item.cantidad > 3 ? styles.highQuantity : ""}`}>
             <h3>{item.nombre}</h3>
 
             <p>Cantidad: {item.cantidad}</p>
 
             <p>Precio unitario: ${item.precio}</p>
 
-            <p>
+            <p className={styles.subtotal}>
                 Subtotal: ${item.precio * item.cantidad}
             </p>
         </div>
-       
-        
     );
 }

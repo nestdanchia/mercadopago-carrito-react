@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { actualizarEstadoOrden } from "../../services/ordenesService";
+import styles from "./PagoFallido.module.css";
 
 export function PagoFallido() {
   const [searchParams] = useSearchParams();
@@ -25,35 +26,19 @@ export function PagoFallido() {
   }, [searchParams]);
 
   return (
-    <div style={{ textAlign: "center", padding: "3rem" }}>
-      <h2 style={{ color: "#c62828" }}>❌ El pago no se pudo completar</h2>
-      <p>Tu orden no fue procesada. Podés intentarlo nuevamente.</p>
-      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "1.5rem" }}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>❌ El pago no se pudo completar</h2>
+      <p className={styles.message}>Tu orden no fue procesada. Podés intentarlo nuevamente.</p>
+      <div className={styles.actions}>
         <button
           onClick={() => navigate("/carrito")}
-          style={{
-            backgroundColor: "#4caf50",
-            color: "#fff",
-            border: "none",
-            padding: "0.6rem 1.4rem",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
+          className={styles.actionButton}
         >
           Volver al carrito
         </button>
         <button
           onClick={() => navigate("/")}
-          style={{
-            backgroundColor: "#1976d2",
-            color: "#fff",
-            border: "none",
-            padding: "0.6rem 1.4rem",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "1rem",
-          }}
+          className={`${styles.actionButton} ${styles.secondaryButton}`}
         >
           Ir a la tienda
         </button>
