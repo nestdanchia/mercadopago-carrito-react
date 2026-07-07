@@ -33,6 +33,22 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 
 Importante: Las siguientes capturas muestran los valores de prueba proporcionados por Mercado Pago para el entorno Sandbox. Estos datos deben ingresarse exactamente como se indican. Si se utilizan valores distintos (por ejemplo, una tarjeta o un nombre de titular no válidos para pruebas), Mercado Pago puede mostrar una página de error (/fatal) y el flujo de pago no regresará a la aplicación.
 
+
+<h3>1. Completar los datos de la tarjeta de prueba</h3>
+<p align="center">
+  <img src="./imagenes/Mercado1.png" width="800">
+</p>
+
+<h3>2. Confirmar el pago</h3>
+<p align="center">
+  <img src="./imagenes/Mercado2.png" width="800">
+</p>
+
+<h3>3. Resultado de la operación</h3>
+<p align="center">
+  <img src="./imagenes/Mercado3.png" width="800">
+</p>
+
 Ver archivo: `INSTRUCCIONES_TARJETAS.txt` en la raíz del proyecto.
 
 <h3>1. Completar los datos de la tarjeta de prueba</h3>
