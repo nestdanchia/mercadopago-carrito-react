@@ -55,7 +55,7 @@ FLUJO COMPLETO DE PRUEBA
 1. Agregar un producto al carrito desde el catálogo
 2. Ir al carrito y hacer click en "Finalizar compra"
 3. Si no está logueado, iniciar sesión con:
-   Email:      castromanmarita@gmail.com  (cuenta cliente de prueba)
+   Email:      castromanmarita@gmail.com  clave marita01  (cuenta cliente de prueba)
    o registrar una cuenta nueva
 4. El sistema crea la orden en Firestore con estado "pendiente"
 5. Se redirige al checkout de Mercado Pago
@@ -63,7 +63,11 @@ FLUJO COMPLETO DE PRUEBA
 7. Según el nombre del titular ingresado:
    - APRO → redirige a /pago-exitoso → orden pasa a "pagada"
    - Rechazo → redirige a /pago-fallido → orden queda como "fallida"
-   - CONT  → redirige a /pago-pendiente → orden queda "pendiente"
+   usar nombre de titular OTHE para simular un rechazo por ejemplo ver tabla
+  o con nombre titular  - CONT  → redirige a /pago-pendiente → orden queda "pendiente"
+  PORQUE SI HAY OTROS ERRORE SOLO MUESTRA LA PANTALA DE MERCADO PAGO fatal y no va a poder Ir
+  al carrito mediante link en las pruebas es la forma en que mercado pago actua
+  imposible hardcodearlo
 
 
 ---------------------------------------------------------
