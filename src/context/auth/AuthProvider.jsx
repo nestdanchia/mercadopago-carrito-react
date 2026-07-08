@@ -190,3 +190,26 @@ export function AuthProvider({ children }) {
 
 // Hook personalizado para consumir el contexto desde cualquier componente
 export const useAuth = () => useContext(AuthContext);
+/*
+
+
+auth
+│
+├── currentUser  ← usuario autenticado
+│
+├── app          ← aplicación Firebase
+│     │
+│     ├── options
+│     │     ├── apiKey
+│     │     ├── projectId
+│     │     ├── authDomain
+│     │     └── ...
+│     │
+│     └── config
+│
+├── configuración del servicio Auth
+│
+├── observadores (onAuthStateChanged)
+│
+└── estado interno del SDK
+*/

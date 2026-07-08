@@ -116,9 +116,7 @@ Firebase genera URL
 Firestore guarda URL
 React la muestra
 
-Eso es profesional.
 
-Resumen brutalmente honesto
 Productos → Firebase
 IA → Render backend
 Frontend → Vercel

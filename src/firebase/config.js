@@ -17,6 +17,73 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 /*
+
+// ============================================================
+// ¿Qué significa "auth" según el contexto?
+// ============================================================
+//
+// 1) "firebase/auth"
+//    Es el MÓDULO DE AUTENTICACIÓN del SDK de Firebase.
+//    Contiene todas las funciones relacionadas con la autenticación,
+//    por ejemplo:
+//      - getAuth()
+//      - signInWithEmailAndPassword()
+//      - createUserWithEmailAndPassword()
+//      - signOut()
+//      - onAuthStateChanged()
+//
+//    Ejemplo:
+//      import { getAuth } from "firebase/auth";
+//
+//
+// 2) getAuth(app)
+//    Es una FUNCIÓN del módulo "firebase/auth".
+//    Recibe el objeto "app" (la aplicación Firebase inicializada)
+//    y crea o devuelve el servicio de autenticación asociado a
+//    esa aplicación.
+//
+//    Ejemplo:
+//      const auth = getAuth(app);
+//
+//
+// 3) auth
+//    Es una VARIABLE creada por nosotros.
+//    Guarda el objeto devuelto por getAuth(app).
+//    Ese objeto representa el SERVICIO DE AUTENTICACIÓN de nuestro
+//    proyecto Firebase.
+//
+//    El nombre "auth" es solo una convención.
+//    Podría llamarse perfectamente:
+//
+//      const servicioAuth = getAuth(app);
+//      const authService = getAuth(app);
+//      const autenticacion = getAuth(app);
+//
+//    Ese objeto contiene, entre otras cosas:
+//
+//      - auth.currentUser   → usuario autenticado
+//      - auth.app           → aplicación Firebase asociada
+//      - auth.config        → configuración interna
+//      - métodos y estado internos del servicio
+//
+//    Luego se exporta para reutilizarlo en toda la aplicación:
+//
+//      export const auth = getAuth(app);
+//
+//    y en cualquier componente se importa:
+//
+//      import { auth } from "../../firebase/config";
+//
+// ============================================================
+app
+│
+├── apiKey
+├── projectId
+├── authDomain
+├── storageBucket
+└── ...
+
+
 ========================
 FIRESTORE - RESUMEN
 ========================
