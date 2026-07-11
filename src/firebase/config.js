@@ -41,7 +41,13 @@ export const storage = getStorage(app);
 //    Recibe el objeto "app" (la aplicación Firebase inicializada)
 //    y crea o devuelve el servicio de autenticación asociado a
 //    esa aplicación.
+// • Si la aplicación aún no tiene un servicio de autenticación,
+//   lo crea y lo asocia a esa aplicación.
 //
+// • Si el servicio ya existe, devuelve esa misma instancia.
+//
+// De esta manera, cada aplicación Firebase utiliza una única
+// instancia del servicio de autenticación (Auth).
 //    Ejemplo:
 //      const auth = getAuth(app);
 //

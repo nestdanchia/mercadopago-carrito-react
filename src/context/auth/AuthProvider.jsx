@@ -120,6 +120,21 @@ export function AuthProvider({ children }) {
       console.log("Rol:", rol);
       console.log("Usuario:", currentUser);
 
+// onAuthStateChanged(auth, callback) 
+// registra el callback dentro del servicio auth.
+// Firebase Auth es quien "escuchara"  a partir de aca a 
+// los cambios de estado de autenticación.
+// auth:
+// Subject (Observable) del patrón Observer.
+// Mantiene el estado de autenticación (currentUser, tokens, etc.).
+//
+// onAuthStateChanged(auth, callback):
+// Registra un callback para ser notificado cuando cambie
+// el estado de autenticación.
+//
+// El Observer es interno al SDK de Firebase.
+// Detecta los cambios del Subject (auth) y ejecuta
+// el callback registrado.
 
       setUser(currentUser); // actualiza la autenticación en el estado global
 

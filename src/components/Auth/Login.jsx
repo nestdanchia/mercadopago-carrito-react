@@ -14,7 +14,8 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // user y rol vienen del contexto global — persisten aunque Login se desmonte y remonte.
+  // user y rol vienen del contexto global — persisten aunque Login se desmonte 
+  // y remonte.
   // Si el usuario ya está autenticado y vuelve a /login, user != null y se muestra
   // la pantalla de bienvenida en lugar del formulario.
   const { login, resetPassword, rol, logout, user } = useAuth();

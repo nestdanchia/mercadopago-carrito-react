@@ -20,7 +20,9 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 |---|---|
 | Repositorio |
 
- https://github.com/nestdanchia/mercadopago-carrito-react |
+
+
+ https://github.com/nestdanchia/mercadopago-carrito-react.git
 
 | Frontend (Vercel) | https://mercadopago-carrito-react.vercel.app |
 
