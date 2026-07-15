@@ -35,7 +35,7 @@ export function Item({ id,nombre, precio, stock, imagen, onCompra }) {
       {id && <Link to={`/producto/${id}`}>Ver detalle</Link>}
 
       <img
-        src={imagen}
+        src={imagen || "/carrito1.png"}
         alt={nombre}
         className={styles.image}
         onError={(e) => {

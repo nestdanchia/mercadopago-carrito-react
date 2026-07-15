@@ -1,3 +1,13 @@
+En esta serie vamos a desarrollar paso a paso una aplicación 
+de e-commerce con React, Firebase y Mercado Pago. 
+No solo veremos cómo escribir el código, sino también 
+por qué funciona cada parte y cuándo conviene utilizarla.
+ Si este contenido te resulta útil, te invito a darle 'Me gusta', 
+ suscribirte al canal y activar las notificaciones para no perderte
+ los próximos capítulos. Ahora sí, comencemos."
+
+
+
 TPprimerEntrega/
 │
 ├── frontend/

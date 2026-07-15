@@ -4,6 +4,10 @@ import { CartContext } from "./CartContext";
 // CartProvider administra el estado global del carrito y lo comparte
 // con todos los componentes hijos via CartContext.Provider.
 export function CartProvider({ children }) {
+
+  const eliminarDelCarrito = (id) => {
+    setCarrito(prev => prev.filter(item => item.id !== id));
+};
   // El useState provoca el render de los componentes que lo usan.
   const [carrito, setCarrito] = useState([]);
 /**
@@ -54,7 +58,9 @@ export function CartProvider({ children }) {
   const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
   return (
-    <CartContext.Provider value={{ carrito, agregarAlCarrito, vaciarCarrito, totalUnidades  }}>
+
+
+    <CartContext.Provider value={{ carrito, agregarAlCarrito, vaciarCarrito, totalUnidades,eliminarDelCarrito  }}>
       {children}
     </CartContext.Provider>
   );
